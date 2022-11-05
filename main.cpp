@@ -29,7 +29,7 @@ void println(string query){
                 int length_of_string = end_of_string - start_of_string;
                 // now we get only needed value  without " ') ".
                 string result_query = query_for_process.substr(start_of_string,length_of_string);
-                //cout<<result_query<<"This is argument!"<<endl;
+               
                 // work with result query
                 for (int i = 0 ; i<= result_query.size(); i++){
                         counter_for_finding_positions++;
@@ -43,7 +43,7 @@ void println(string query){
 
                 }
                 //grab argument from "result_query"
-                //cout<<grab_vector[0]<<" "<<grab_vector[1]<<endl;
+         
                 int start_of_argument = grab_vector[0];
                 int end_of_argument = grab_vector[1]-1;
                 int length_of_argument = end_of_argument - start_of_argument;
