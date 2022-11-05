@@ -97,12 +97,12 @@ void get_file(){
     while(getline(input , line)){
         counter_line +=1;
         if(line == "#BEGIN"){
-            //cout<<"Start of Program: '#Begin'"<<"Line:"<<counter_line<<endl;
+          
 
         }
 
         if(line == "#END"){
-            //cout<<"End of Program."<<"Line:"<<counter_line<<endl;
+            
 
         }
         if(line != " " && line != "#END" && line != "#BEGIN" ){
