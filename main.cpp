@@ -65,7 +65,7 @@ string command_from_line;
 
 
 
-
+// observe line 
    for (int i = 0; i <= query.size(); i++) {
 
         //cout<<"test"<<endl;
