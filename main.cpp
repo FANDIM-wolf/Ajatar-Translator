@@ -96,15 +96,7 @@ void get_file(){
 
     while(getline(input , line)){
         counter_line +=1;
-        if(line == "#BEGIN"){
-          
-
-        }
-
-        if(line == "#END"){
-            
-
-        }
+        
         if(line != " " && line != "#END" && line != "#BEGIN" ){
             analyse_line(counter_line , line);
 
