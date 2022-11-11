@@ -1,3 +1,10 @@
 #BEGIN
-println("I started write my first programming language!");
+
+println("Hello World!");
+println("Hello World!");
+println("Hello World!");
+
+int a=1230;
+int b=1330;
+int c=1430;
 #END
