@@ -1,6 +1,6 @@
 /*
 Ajatar translator
-
+@2022
 
 */
 
