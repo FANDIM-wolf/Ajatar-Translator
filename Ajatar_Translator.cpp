@@ -11,6 +11,8 @@ Ajatar translator
 #include <vector>
 // basic tools
 #include "Integer.cpp";
+//parser  for manth expressions
+#include "tinyexpr.h";
 
 
 using namespace std;
@@ -151,7 +153,7 @@ void analyse_line(int current_line_number, string current_line) {
 
 }
 //count lines , define where "begin" and "end " of program.
-void get_file() {
+int get_file() {
     int counter_line = 0;
     ifstream input("Program.txt");
     string line;
@@ -165,7 +167,7 @@ void get_file() {
 
         if (line == "#END") {
             //cout<<"End of Program."<<"Line:"<<counter_line<<endl;
-
+            return 0;
         }
         if (line != " " && line != "#END" && line != "#BEGIN") {
             analyse_line(counter_line, line);
@@ -182,6 +184,7 @@ int main()
     get_file();
    
    
-
+    double a = te_interp("((5+5)*5/5)", 0); /* Returns 10. */
+    cout << a << endl;
     return 0;
 }
