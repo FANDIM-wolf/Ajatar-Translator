@@ -23,15 +23,7 @@ long int multifliers[30] = { 1,10,100,1000,10000,100000,1000000,10000000 };
 
 
 
-string reverse_string(string line) {
-    string new_line;
 
-    for (int i = line.size(); i >= 0; i--) {
-        new_line += line[i];
-    }
-
-    return new_line;
-}
 
 // get from string int number , for example "100" => 100
 int get_int_number_from_string(string number) {
@@ -59,9 +51,10 @@ void create_variable_int(string query , int number_of_line) {
         string  number = query.substr(operator_equal + 1, length_of_number-1); // we got number in string
         //REWRITE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!
         cout << number << endl;
-        int number1= stoi(number);
-        cout << number1 << endl;
+        //int number1= stoi(number);
+        //cout << number1 << endl;
         value_for_object = get_int_number_from_string(number);
+        cout << "New value:" << value_for_object << endl;
         Integer object = Integer(name_of_variable, value_for_object);
         VARIABLES_INTEGER.push_back(object);
         
