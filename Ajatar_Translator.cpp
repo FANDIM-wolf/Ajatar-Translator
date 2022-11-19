@@ -13,12 +13,6 @@ using namespace std;
 
 
 
-// array to transform string to number
-long int multifliers[30] = { 1,10,100,1000,10000,100000,1000000,10000000 };
-
-
-
-
 
 // get from string int number , for example "100" => 100
 int get_int_number_from_string(string number) {
