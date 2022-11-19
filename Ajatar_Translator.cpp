@@ -35,13 +35,13 @@ void create_variable_int(string query, int number_of_line) {
     int value_for_object;
     int operator_equal = query.find("=");
     int end_of_line = query.find(";");
-    int start_of_name = query.find(" ");
+    int start_of_name = query.find("t")+1;
     // get name  from string query
     int length_of_name = operator_equal - start_of_name;
     string name_of_variable = query.substr(start_of_name, length_of_name); // beacuse "operator_equal" is litreally end of variable name.
     //second cycle for variable , to define name accurately
     name_of_variable = define_accurate_name_of_variable(name_of_variable);
-    //cout << " Test variable Name:" << name_of_variable << endl; // for test 
+    cout << " Test variable Name:" << name_of_variable << endl; // for test 
     if (operator_equal > 3) {
 
         int length_of_number = end_of_line - operator_equal;
@@ -53,7 +53,7 @@ void create_variable_int(string query, int number_of_line) {
         value_for_object = get_int_number_from_string(number);
         //cout << "New value:" << value_for_object << endl;
         
-       // cout << "object value and name:" << object.name << object.value << endl;
+
         if (is_variable_already_exists(name_of_variable) == 1) {
             cout << "Variable with name " << name_of_variable << " already exist! Line:" <<number_of_line<< endl;
         }
@@ -126,37 +126,61 @@ void analyse_line(int current_line_number, string current_line) {
 
     string query = current_line;
     string command_from_line;
-
-
-
+    string spaces;
+    bool command_executed = false;
 
     for (int i = 0; i <= query.size(); i++) {
 
         //cout<<"test"<<endl;
-        if (query[i] != '(' || query[i] != ' ' || query[i] != '=' || query[i] != ';') {
+        if (query[i] != '(' || query[i] != '=' || query[i] != ';' ) {
+            
+            if (int(query[i]) == 32) {
+                spaces += query[i];
+            }
+           
+
             command_from_line += query[i];
-            //cout<<"test2"<<command_from_line<<endl;
-            if (command_from_line == "println") {
+            //define_accurate_name_of_command(command_from_line);
+            //cout << command_from_line << endl;
+
+            //cout<<"test2"<<query[i]<<i<<endl;
+            if (command_from_line == "println" && command_executed != true) {
+                command_executed = true;
                 //cout<<"test3"<<endl;
                 println(query);
 
 
             }
             // create variable with data type int
-            if (command_from_line == "int") {
-
+            if (command_from_line == "int" && command_executed != true) {
+                command_executed = true;
+                create_variable_int(query, current_line_number);
+            }
+            if (command_from_line == spaces + "println" && command_executed != true) {
+                command_executed = true;
+                spaces.clear();
+                //cout<<"test3"<<endl;
+                println(query);
+            }
+            if (command_from_line == spaces+"int" && command_executed != true) {
+                command_executed = true;
+                spaces.clear();
                 create_variable_int(query, current_line_number);
             }
 
 
         }
-
+        
 
 
     }
-
-
+    
+   
 }
+
+
+
+
 //count lines , define where "begin" and "end " of program.
 int get_file() {
     int counter_line = 0;
@@ -174,10 +198,12 @@ int get_file() {
             //cout<<"End of Program."<<"Line:"<<counter_line<<endl;
             return 0;
         }
+       
         if (line != " " && line != "#END" && line != "#BEGIN") {
             analyse_line(counter_line, line);
 
         }
+        
     }
 
 
