@@ -1,7 +1,5 @@
 /*
 Ajatar translator
-
-
 */
 
 #include <iostream>
@@ -9,17 +7,12 @@ Ajatar translator
 #include <string>
 #include <cstdio>
 #include <vector>
-// basic tools
-#include "Integer.cpp";
-//parser  for manth expressions
-#include "tinyexpr.h";
 
-
+#include "Ajatar_Translator.h";
 using namespace std;
 
 
-//buffer for variables
-vector <Integer> VARIABLES_INTEGER;
+
 // array to transform string to number
 long int multifliers[30] = { 1,10,100,1000,10000,100000,1000000,10000000 };
 
@@ -30,14 +23,14 @@ long int multifliers[30] = { 1,10,100,1000,10000,100000,1000000,10000000 };
 // get from string int number , for example "100" => 100
 int get_int_number_from_string(string number) {
     int value = stoi(number); // result of function
-    
 
-    return value ;
+
+    return value;
 
 }
 
 // just create variable with data type int
-void create_variable_int(string query , int number_of_line) {
+void create_variable_int(string query, int number_of_line) {
     string number_in_string;
     int value_for_object;
     int operator_equal = query.find("=");
@@ -45,28 +38,34 @@ void create_variable_int(string query , int number_of_line) {
     int start_of_name = query.find(" ");
     // get name  from string query
     int length_of_name = operator_equal - start_of_name;
-    string name_of_variable = query.substr(start_of_name , length_of_name); // beacuse "operator_equal" is litreally end of variable name.
+    string name_of_variable = query.substr(start_of_name, length_of_name); // beacuse "operator_equal" is litreally end of variable name.
+    //second cycle for variable , to define name accurately
+
     cout << " Test variable Name:" << name_of_variable << endl; // for test 
     if (operator_equal > 3) {
 
-        int length_of_number = end_of_line  - operator_equal;
-        string  number = query.substr(operator_equal + 1, length_of_number-1); // we got number in string
+        int length_of_number = end_of_line - operator_equal;
+        string  number = query.substr(operator_equal + 1, length_of_number - 1); // we got number in string
         //REWRITE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!
         cout << number << endl;
         //int number1= stoi(number);
         //cout << number1 << endl;
         value_for_object = get_int_number_from_string(number);
         cout << "New value:" << value_for_object << endl;
-        Integer object = Integer(name_of_variable, value_for_object);
-        VARIABLES_INTEGER.push_back(object);
+        Integer object;
+        object.create_object(name_of_variable, value_for_object);
+        cout << "object value and name:" << object.name << object.value << endl;
+       
+            VARIABLES_INTEGER.push_back(object);
         
-        
+
+
     }
     else {
         cout << "Error at line :" << number_of_line << "variable was created uncorrectly .";
     }
 
-    
+
 }
 
 //function to print line
@@ -182,8 +181,8 @@ int main()
 {
     //cout << "@Ajatar 0.1" << endl;
     get_file();
-   
-   
+
+
     double a = te_interp("((5+5)*5/5)", 0); /* Returns 10. */
     cout << a << endl;
     return 0;
