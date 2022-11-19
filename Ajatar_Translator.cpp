@@ -40,8 +40,8 @@ void create_variable_int(string query, int number_of_line) {
     int length_of_name = operator_equal - start_of_name;
     string name_of_variable = query.substr(start_of_name, length_of_name); // beacuse "operator_equal" is litreally end of variable name.
     //second cycle for variable , to define name accurately
-
-    cout << " Test variable Name:" << name_of_variable << endl; // for test 
+    name_of_variable = define_accurate_name_of_variable(name_of_variable);
+    //cout << " Test variable Name:" << name_of_variable << endl; // for test 
     if (operator_equal > 3) {
 
         int length_of_number = end_of_line - operator_equal;
@@ -51,12 +51,18 @@ void create_variable_int(string query, int number_of_line) {
         //int number1= stoi(number);
         //cout << number1 << endl;
         value_for_object = get_int_number_from_string(number);
-        cout << "New value:" << value_for_object << endl;
-        Integer object;
-        object.create_object(name_of_variable, value_for_object);
-        cout << "object value and name:" << object.name << object.value << endl;
-       
+        //cout << "New value:" << value_for_object << endl;
+        
+       // cout << "object value and name:" << object.name << object.value << endl;
+        if (is_variable_already_exists(name_of_variable) == 1) {
+            cout << "Variable with name " << name_of_variable << " already exist! Line:" <<number_of_line<< endl;
+        }
+        else {
+            Integer object;
+            object.create_object(name_of_variable, value_for_object);
             VARIABLES_INTEGER.push_back(object);
+        }
+            
         
 
 
@@ -183,7 +189,7 @@ int main()
     get_file();
 
 
-    double a = te_interp("((5+5)*5/5)", 0); /* Returns 10. */
-    cout << a << endl;
+    //double a = te_interp("((5+5)*5/5)", 0); /* Returns 10. */
+    //cout << a << endl;
     return 0;
 }

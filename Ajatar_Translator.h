@@ -14,3 +14,27 @@ using namespace std;
 //buffer for variables
 vector <Integer> VARIABLES_INTEGER;
 
+string define_accurate_name_of_variable(string var) {
+	string accurate_name;
+	for (int i = 0; i <= var.size(); i++) {
+		if (var[i] != ' ') {
+			accurate_name += var[i];
+		}
+	}
+
+	return accurate_name;
+}
+
+//returns 1 if variable already exists.
+int is_variable_already_exists(string name_of_variable) {
+	
+	Integer object_for_checking;
+	for (int i = 0; i < VARIABLES_INTEGER.size(); i++) {
+		object_for_checking.name = VARIABLES_INTEGER[i].name;
+		if (name_of_variable == object_for_checking.name) {
+			return 1;
+		}
+	}
+
+	return 0;
+}
