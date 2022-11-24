@@ -47,7 +47,7 @@ void create_variable_int(string query, int number_of_line) {
         value_for_object = get_int_number_from_string(number);
         //cout << "New value:" << value_for_object << endl;
         
-
+        // check existance of the variable 
         if (is_variable_already_exists(name_of_variable) == 1) {
             cout << "Variable with name " << name_of_variable << " already exist! Line:" <<number_of_line<< endl;
         }
