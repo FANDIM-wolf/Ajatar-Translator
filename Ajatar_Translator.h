@@ -13,6 +13,8 @@ using namespace std;
 
 //buffer for variables
 vector <Integer> VARIABLES_INTEGER;
+vector <string> vector_of_expressions;
+
 
 string define_accurate_name_of_variable(string var) {
 	string accurate_name;
@@ -23,6 +25,44 @@ string define_accurate_name_of_variable(string var) {
 	}
 
 	return accurate_name;
+}
+
+void grab_variables(string raw_string) {
+    
+    int temporal_var_for_defining_of_comma;
+    int temporal_var_for_defining_of_start_of_Variable_in_raw_string;
+    int length_of_var;
+    string current_var;
+    int start_position = raw_string.find('(');
+    temporal_var_for_defining_of_start_of_Variable_in_raw_string = start_position++; // start_position is start of first variable
+    int end_position = raw_string.find(')');
+
+    for (int i = start_position; i <= end_position; i++) {
+
+        if (raw_string[i] != ',' && raw_string[i] != ')' && raw_string[i] != '(')
+        {
+
+            current_var += raw_string[i];
+          
+        }
+
+        if (raw_string[i] == ',' || raw_string[i] == ')') {
+            current_var = define_accurate_name_of_variable(current_var);
+           
+            vector_of_expressions.push_back(current_var);
+            current_var.erase();
+
+
+        }
+
+    }
+	for (auto i : vector_of_expressions) {
+		// found nth element..print and break.
+
+		cout << i << endl;
+
+	}
+
 }
 
 //returns 1 if variable already exists.

@@ -11,10 +11,13 @@ class Integer {
 public:
     string name;
     int value;
-    Integer(string name, int value) {
-        name = name;
-        value = value;
+    
+    void create_object(string name, int value) {
+        this->name = name;
+        this->value = value;
     }
+        
+    
 
 
 };

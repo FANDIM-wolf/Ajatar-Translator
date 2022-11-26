@@ -13,7 +13,6 @@ using namespace std;
 
 
 
-
 // get from string int number , for example "100" => 100
 int get_int_number_from_string(string number) {
     int value = stoi(number); // result of function
@@ -47,7 +46,7 @@ void create_variable_int(string query, int number_of_line) {
         value_for_object = get_int_number_from_string(number);
         //cout << "New value:" << value_for_object << endl;
         
-        // check existance of the variable 
+
         if (is_variable_already_exists(name_of_variable) == 1) {
             cout << "Variable with name " << name_of_variable << " already exist! Line:" <<number_of_line<< endl;
         }
@@ -68,9 +67,32 @@ void create_variable_int(string query, int number_of_line) {
 
 }
 
+//function to print expression
+
+void print_exrpession(string expression) {
+    grab_variables(expression);
+   
+    for (auto j : vector_of_expressions)
+    {   
+       
+        if (is_variable_already_exists(j) == 1) {
+            for (auto i : VARIABLES_INTEGER)
+            {
+                if (i.name == j) {
+                    cout << i.value << endl;
+                }
+            }
+        }
+        else {
+            cout << "ERROR:" << j << "does not exist !" << endl;
+        }
+    }
+    
+}
+
 //function to print line
 
-void println(string query) {
+int println(string query) {
 
     string query_for_process = query;
     string final_result_to_print;
@@ -89,6 +111,16 @@ void println(string query) {
     string result_query = query_for_process.substr(start_of_string, length_of_string);
     //cout<<result_query<<"This is argument!"<<endl;
     // work with result query
+    int postion_of_comma = result_query.find('"');
+
+    if (postion_of_comma == -1) {
+        //!!!!!!!!!!!!!!!!!!!
+        //write function of getting variable and print them .
+        print_exrpession(result_query);
+
+        return 0;
+        
+    }
     for (int i = 0; i < result_query.size(); i++) {
         counter_for_finding_positions++;
         if (result_query[i] == '"') {
@@ -109,7 +141,7 @@ void println(string query) {
 
     cout << final_result_to_print << endl;
 
-
+    return 0;
 
 }
 
@@ -138,7 +170,7 @@ void analyse_line(int current_line_number, string current_line) {
             //cout << command_from_line << endl;
 
             //cout<<"test2"<<query[i]<<i<<endl;
-            if (command_from_line == "println" && command_executed != true) {
+            if (command_from_line == "print" && command_executed != true) {
                 command_executed = true;
                 //cout<<"test3"<<endl;
                 println(query);
@@ -204,7 +236,8 @@ int get_file() {
 }
 
 int main()
-{
+{   
+   
     //cout << "@Ajatar 0.1" << endl;
     get_file();
 
