@@ -1,10 +1,12 @@
 #BEGIN
 
-println("Hello World!");
-println("Hello World!");
-println("Hello World!");
-
-int a=1230;
-int b=1330;
-int c=1430;
+print(3123*4)
+int b =3232131;
+int height_of_house = 400;
+int test_variable = 300000000; 
+print(25*25+4,b,test_variable,321*23)
+print(500*1000*5/444)
+print("Hello World!")
+print(test_variable)
+print(height_of_house)
 #END
