@@ -27,6 +27,8 @@ string define_accurate_name_of_variable(string var) {
 	return accurate_name;
 }
 
+
+
 void grab_variables(string raw_string) {
     
     int temporal_var_for_defining_of_comma;
@@ -56,12 +58,15 @@ void grab_variables(string raw_string) {
         }
 
     }
+	/*
 	for (auto i : vector_of_expressions) {
 		// found nth element..print and break.
 
 		cout << i << endl;
 
 	}
+
+	*/
 
 }
 

@@ -34,13 +34,13 @@ void create_variable_int(string query, int number_of_line) {
     string name_of_variable = query.substr(start_of_name, length_of_name); // beacuse "operator_equal" is litreally end of variable name.
     //second cycle for variable , to define name accurately
     name_of_variable = define_accurate_name_of_variable(name_of_variable);
-    cout << " Test variable Name:" << name_of_variable << endl; // for test 
+    //cout << " Test variable Name:" << name_of_variable << endl; // for test 
     if (operator_equal > 3) {
 
         int length_of_number = end_of_line - operator_equal;
         string  number = query.substr(operator_equal + 1, length_of_number - 1); // we got number in string
         //REWRITE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        cout << number << endl;
+        //cout << number << endl;
         //int number1= stoi(number);
         //cout << number1 << endl;
         value_for_object = get_int_number_from_string(number);
@@ -71,8 +71,52 @@ void create_variable_int(string query, int number_of_line) {
 
 void print_exrpession(string expression) {
     grab_variables(expression);
-   
-    for (auto j : vector_of_expressions)
+    double current_value_for_printing_in_console;
+    bool expression_checked = false;
+    char math_expression[300] = {};
+    // check for math expression
+    
+    for (auto j : vector_of_expressions) {
+        //cout << "Current Element:  " << j << endl;
+        for (int i = 0; i <= j.size(); i++) {
+            if ((j[i] == '+' || j[i] == '-' || j[i] == '*' || j[i] == '/' || j[i] == '%') && expression_checked != true) {
+                //cout << "WORK WITH EXPRESSION!";
+                // copy string in char array 
+                for (int k = 0; k <= j.size(); k++)
+                {
+                    math_expression[k] = j[k];
+                }
+                
+                current_value_for_printing_in_console = te_interp(math_expression, 0); /* Returns value. */
+                //print result of math expression in console 
+                cout << current_value_for_printing_in_console << endl;
+                current_value_for_printing_in_console = 0;
+                expression_checked = true;
+               //clear char array
+                memset(math_expression, 0, sizeof(math_expression));
+                
+
+            }
+            
+            
+        }
+        
+        // if it is just variable.
+        if (is_variable_already_exists(j) == 1) {
+            for (auto i : VARIABLES_INTEGER)
+            {
+                if (i.name == j) {
+                    cout << i.value << endl;
+                }
+            }
+        }
+        expression_checked = false; // we can check another expression
+        //vector_of_expressions.push_back(j);
+    }
+
+    /*
+    
+     for (auto j : vector_of_expressions)
     {   
        
         if (is_variable_already_exists(j) == 1) {
@@ -87,7 +131,9 @@ void print_exrpession(string expression) {
             cout << "ERROR:" << j << "does not exist !" << endl;
         }
     }
+    */
     
+    vector_of_expressions.clear(); // clear all vector to use print again.
 }
 
 //function to print line
@@ -97,7 +143,9 @@ int println(string query) {
     string query_for_process = query;
     string final_result_to_print;
     vector <int> grab_vector; // put here positions of symbols " to return argument.
+
     int counter_for_finding_positions = 0;
+  
     /*
     it means translator must print line
     first of all define field of string  , then get argument
@@ -114,12 +162,14 @@ int println(string query) {
     int postion_of_comma = result_query.find('"');
 
     if (postion_of_comma == -1) {
+        
+        
+        
         //!!!!!!!!!!!!!!!!!!!
         //write function of getting variable and print them .
         print_exrpession(result_query);
-
+        postion_of_comma = 0;
         return 0;
-        
     }
     for (int i = 0; i < result_query.size(); i++) {
         counter_for_finding_positions++;
@@ -139,7 +189,7 @@ int println(string query) {
     int length_of_argument = end_of_argument - start_of_argument;
     final_result_to_print = result_query.substr(start_of_argument, length_of_argument);
 
-    cout << final_result_to_print << endl;
+    cout<< final_result_to_print << endl;
 
     return 0;
 
