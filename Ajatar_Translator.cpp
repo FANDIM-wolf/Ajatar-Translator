@@ -1,5 +1,6 @@
 /*
 Ajatar translator
+Main file of project.
 */
 
 #include <iostream>
