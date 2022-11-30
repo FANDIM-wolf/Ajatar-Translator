@@ -289,7 +289,7 @@ int get_file() {
 int main()
 {   
    
-    //cout << "@Ajatar 0.1" << endl;
+
     get_file();
 
 
