@@ -8,16 +8,26 @@
 #include "Integer.cpp";
 //parser  for manth expressions
 #include "tinyexpr.h";
+//functions for tokens
+#include "Tokens.h";
+//functions for work of Alphabet
+#include "Alphabet.h";
 
 using namespace std;
 
 //buffer for variables
 vector <Integer> VARIABLES_INTEGER;
 vector <string> vector_of_expressions;
+vector <string> Tokens_from_expression;
+
+//return value of variable from vector VARIABKES_INTEGER
+
+
 
 
 string define_accurate_name_of_variable(string var) {
 	string accurate_name;
+	
 	for (int i = 0; i <= var.size(); i++) {
 		if (var[i] != ' ') {
 			accurate_name += var[i];
@@ -27,7 +37,18 @@ string define_accurate_name_of_variable(string var) {
 	return accurate_name;
 }
 
+string return_value_of_variable(string name_of_vairable , int iterator , int size_of_array) {
+	if (iterator != size_of_array ) {
+		name_of_vairable = define_accurate_name_of_variable(name_of_vairable);
+	}
+	for (auto i : VARIABLES_INTEGER) {
+		if (i.name == name_of_vairable) {
+			return to_string(i.value);
+		}
+	}
 
+	return name_of_vairable;
+}
 
 void grab_variables(string raw_string) {
     
@@ -101,3 +122,21 @@ string define_accurate_name_of_command(string var) {
 
 	return accurate_name;
 }
+
+string from_vector_to_string() {
+	string final_expression;
+	string compare;
+	
+	
+
+	for (int i = 0; i < Tokens_from_expression.size()-1; i++) {
+		final_expression += return_value_of_variable(Tokens_from_expression[i] , i , Tokens_from_expression.size());
+	}
+
+	final_expression += return_value_of_variable(Tokens_from_expression[Tokens_from_expression.size()-1], Tokens_from_expression.size(), Tokens_from_expression.size());
+
+	
+	
+	return final_expression;
+}
+

@@ -1,6 +1,5 @@
 /*
 Ajatar translator
-Main file of project.
 */
 
 #include <iostream>
@@ -11,8 +10,6 @@ Main file of project.
 
 #include "Ajatar_Translator.h";
 using namespace std;
-
-
 
 // get from string int number , for example "100" => 100
 int get_int_number_from_string(string number) {
@@ -76,10 +73,12 @@ void print_exrpession(string expression) {
     bool expression_checked = false;
     char math_expression[300] = {};
     // check for math expression
-    
+   
+    string final_expression_from_tokens;
     for (auto j : vector_of_expressions) {
         //cout << "Current Element:  " << j << endl;
         for (int i = 0; i <= j.size(); i++) {
+            
             if ((j[i] == '+' || j[i] == '-' || j[i] == '*' || j[i] == '/' || j[i] == '%') && expression_checked != true) {
                 //cout << "WORK WITH EXPRESSION!";
                 // copy string in char array 
@@ -98,6 +97,22 @@ void print_exrpession(string expression) {
                 
 
             }
+            //while it works if only first symbol is not number
+            if ((isLetter(j[i]) == 1) && expression_checked != true) {
+                // work with variables 
+                
+                
+                cout << "Final string:" << final_expression_from_tokens << endl;
+                Tokens_from_expression = from_string_to_vector(j); // split string to tokens
+              
+              
+                final_expression_from_tokens = from_vector_to_string(); // get expression with only numbers
+                cout << "Final string:" << final_expression_from_tokens << endl;
+
+
+                expression_checked = true;
+                
+            }
             
             
         }
@@ -111,6 +126,10 @@ void print_exrpession(string expression) {
                 }
             }
         }
+       
+            
+
+        
         expression_checked = false; // we can check another expression
         //vector_of_expressions.push_back(j);
     }
@@ -221,10 +240,12 @@ void analyse_line(int current_line_number, string current_line) {
             //cout << command_from_line << endl;
 
             //cout<<"test2"<<query[i]<<i<<endl;
-            if (command_from_line == "print" && command_executed != true) {
+            if (command_from_line == spaces + "print" && command_executed != true) {
                 command_executed = true;
+                spaces.clear();
                 //cout<<"test3"<<endl;
                 println(query);
+                
 
 
             }
@@ -289,7 +310,7 @@ int get_file() {
 int main()
 {   
    
-
+    //cout << "@Ajatar 0.1" << endl;
     get_file();
 
 
