@@ -102,7 +102,7 @@ void print_exrpession(string expression) {
                 // work with variables 
                 
                 
-                cout << "Final string:" << final_expression_from_tokens << endl;
+                //cout << "Final string:" << final_expression_from_tokens << endl;
                 Tokens_from_expression = from_string_to_vector(j); // split string to tokens
               
               
