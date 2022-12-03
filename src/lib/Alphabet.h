@@ -36,3 +36,55 @@ int isLetter(char x)
     }
 
 }
+
+
+
+
+
+
+int is_number(char input) {
+
+
+    switch (input)
+    {
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+        return 1;
+
+
+    default:
+        return 0;
+    }
+}
+
+
+
+
+int return_1_if_it_consists_number_or_letter_or_math_symbol(char x) {
+   
+
+    if ((x >= 'A' && x <= 'Z') || (x >= 'a' && x <= 'z')) {
+        return 1;
+    }
+    else {
+        if (is_number(x) == 1) {
+            return 1;
+        }
+        else {
+            if (x == '+' || x == '*' || x == '-' || x == '/' || x == '^' || x == '(' || x == ')') {
+                return 1;
+            }
+        }
+    }
+
+    return 0;
+
+}
