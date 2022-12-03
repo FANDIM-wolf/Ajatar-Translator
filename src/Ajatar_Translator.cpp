@@ -11,8 +11,6 @@ Ajatar translator
 #include "Ajatar_Translator.h";
 using namespace std;
 
-
-
 // get from string int number , for example "100" => 100
 int get_int_number_from_string(string number) {
     int value = stoi(number); // result of function
@@ -72,13 +70,18 @@ void create_variable_int(string query, int number_of_line) {
 void print_exrpession(string expression) {
     grab_variables(expression);
     double current_value_for_printing_in_console;
+    int result_in_console;
     bool expression_checked = false;
     char math_expression[300] = {};
+    char math_expression_without_spaces[300] = {};
+    string expression_for_array;
     // check for math expression
-    
+   
+    string final_expression_from_tokens;
     for (auto j : vector_of_expressions) {
         //cout << "Current Element:  " << j << endl;
         for (int i = 0; i <= j.size(); i++) {
+            
             if ((j[i] == '+' || j[i] == '-' || j[i] == '*' || j[i] == '/' || j[i] == '%') && expression_checked != true) {
                 //cout << "WORK WITH EXPRESSION!";
                 // copy string in char array 
@@ -97,6 +100,43 @@ void print_exrpession(string expression) {
                 
 
             }
+            //while it works if only first symbol is not number
+            if ((isLetter(j[i]) == 1 || j[i] == '(') && expression_checked != true) {
+                // work with variables 
+
+
+                //cout << "Final string:" << final_expression_from_tokens << endl;
+                Tokens_from_expression = from_string_to_vector(j); // split string to tokens
+
+
+                final_expression_from_tokens = from_vector_to_string(); // get expression with only numbers
+                //cout << "Final string:" << final_expression_from_tokens << endl;
+               
+                for (int i = 0; i < final_expression_from_tokens.size(); i++)
+                {
+
+                    //write function to define a needed symbol such like math symbol or number
+                    //!!!!!!!!
+                    if (return_1_if_it_consists_number_or_letter_or_math_symbol(final_expression_from_tokens[i]) == 1) {
+                        //cout << "item" << math_expression[i] << endl;
+                        expression_for_array  += final_expression_from_tokens[i];
+                    }
+                    
+                }
+                //cout << "Expression for array" << expression_for_array<<")"<< endl;
+                for (int m = 0; m < expression_for_array.size(); m++) {
+                    math_expression[m] = expression_for_array[m];
+                }
+                result_in_console = te_interp(math_expression,0); /* Returns value. */
+                //print result of math expression in console 
+                cout << result_in_console << endl;
+                //clear char array
+                memset(math_expression, 0, sizeof(math_expression));
+                final_expression_from_tokens.erase();
+                expression_for_array.erase();
+                expression_checked = true;
+                
+            }
             
             
         }
@@ -110,6 +150,10 @@ void print_exrpession(string expression) {
                 }
             }
         }
+       
+            
+
+        
         expression_checked = false; // we can check another expression
         //vector_of_expressions.push_back(j);
     }
@@ -153,12 +197,14 @@ int println(string query) {
    */
    //cout<<"test 4"<<endl;
     int start_of_string = query_for_process.find("(");
-    int end_of_string = query_for_process.find(" ) ");
+    int end_of_string = query_for_process.find(" ; ");
     int length_of_string = end_of_string - start_of_string;
     // now we get only needed value  without " ') ".
-    string result_query = query_for_process.substr(start_of_string, length_of_string);
+    string result_query = query_for_process.substr(start_of_string, length_of_string-1);
     //cout<<result_query<<"This is argument!"<<endl;
-    // work with result query
+    // work with result query , add dot in the end of result query for further process 
+    result_query += ".";
+    //cout<<"Debug:"<<result_query<<endl;
     int postion_of_comma = result_query.find('"');
 
     if (postion_of_comma == -1) {
@@ -220,10 +266,12 @@ void analyse_line(int current_line_number, string current_line) {
             //cout << command_from_line << endl;
 
             //cout<<"test2"<<query[i]<<i<<endl;
-            if (command_from_line == "print" && command_executed != true) {
+            if (command_from_line == spaces + "print" && command_executed != true) {
                 command_executed = true;
+                spaces.clear();
                 //cout<<"test3"<<endl;
                 println(query);
+                
 
 
             }
