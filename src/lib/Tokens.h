@@ -80,6 +80,8 @@ vector<string> from_string_to_vector(string raw_string) {
 
     tokens.pop_back();//delete extra plus .
 
+    
+
     return tokens;
 }
 

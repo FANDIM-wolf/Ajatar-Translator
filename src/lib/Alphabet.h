@@ -64,7 +64,38 @@ int is_number(char input) {
         return 0;
     }
 }
+int is_number_for_string(string input) {
 
+    int size = 0;
+    int counter_for_not_numbers = 0;
+    for (int i = 0; i <= input.size(); i++) {
+        switch (input[i])
+        {
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+            size++;
+
+
+        default:
+            counter_for_not_numbers++;
+        }
+    }
+    if (counter_for_not_numbers <= 0) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+    
+}
 
 
 
