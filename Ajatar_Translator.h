@@ -62,7 +62,7 @@ void grab_variables(string raw_string) {
 	int end_position = raw_string.find(';');
 	int end_position_in_last_element , length_of_last_element;
 	
-	cout <<"Raw string: " << raw_string << endl;
+	//cout <<"Raw string: " << raw_string << endl;
 	for (int i = start_position; i <= end_position ; i++) {
 
 		// add in bad case && raw_string[i] != ')' && raw_string[i] != '('

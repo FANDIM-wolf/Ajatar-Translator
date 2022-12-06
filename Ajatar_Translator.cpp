@@ -399,7 +399,7 @@ int  analyse_content_in_line(int current_line_number, string current_line, strin
     result_in_console = change_value_int(expression, name_of_variable);
     for (int v = 0; v < VARIABLES_INTEGER.size(); v++) {
         if (name_of_variable == VARIABLES_INTEGER[v].name) {
-            cout << VARIABLES_INTEGER[v].name << endl;
+            //cout << VARIABLES_INTEGER[v].name << endl;
             VARIABLES_INTEGER[v].value = result_in_console;
             //cout << "found" << endl;
         }
