@@ -390,6 +390,8 @@ int  analyse_content_in_line(int current_line_number, string current_line, strin
 
     position_end_of_line = query.find(';');
     position_of_sign_equal = query.find('=');
+
+    // get name and name of variable
     name_of_variable = query.substr(0, position_of_sign_equal ); // get raw name of variable (probably with spaces)
     length_of_expression = position_end_of_line - position_of_sign_equal;
     expression = query.substr(position_of_sign_equal+1, length_of_expression);
