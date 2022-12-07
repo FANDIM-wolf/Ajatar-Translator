@@ -394,6 +394,7 @@ int  analyse_content_in_line(int current_line_number, string current_line, strin
     // get name and name of variable
     name_of_variable = query.substr(0, position_of_sign_equal ); // get raw name of variable (probably with spaces)
     length_of_expression = position_end_of_line - position_of_sign_equal;
+    
     expression = query.substr(position_of_sign_equal+1, length_of_expression);
     
     
@@ -416,7 +417,41 @@ int  analyse_content_in_line(int current_line_number, string current_line, strin
 }
 
 
+void input_function(int current_line_number, string current_line) {
+    
+    
+    string query = current_line , name_of_variable;
+ 
+    int counted_value , length_of_variable_name_as_argument_in_input_function , position_end_of_line , position_start_of_line;
+    cin >> counted_value;
+    position_end_of_line = query.find(")");
+    position_start_of_line = query.find("(");
+    length_of_variable_name_as_argument_in_input_function = position_end_of_line - position_start_of_line;
+    length_of_variable_name_as_argument_in_input_function--;
+    name_of_variable = query.substr(position_start_of_line+1, length_of_variable_name_as_argument_in_input_function);
+    name_of_variable = define_accurate_name_of_variable(name_of_variable);
+    //cout << name_of_variable << endl;
+    if (is_variable_already_exists(name_of_variable) == 1) {
+        for (int v = 0; v < VARIABLES_INTEGER.size(); v++) {
+            if (name_of_variable == VARIABLES_INTEGER[v].name) {
+                //cout << VARIABLES_INTEGER[v].name << endl;
+                VARIABLES_INTEGER[v].value = counted_value;
+                
+                
+            }
+        }
+    }
+    else {
+        cout << "ERROR:" << "Variable is not found:" << name_of_variable << ", Line:" << current_line_number << endl;
+    }
+    
 
+    
+    //cout << counted_value<<endl;
+    
+    
+    
+}
 
     
 
@@ -450,6 +485,16 @@ void analyse_line(int current_line_number, string current_line ) {
                 spaces.clear();
                 //cout<<"test3"<<endl;
                 println(query);
+
+
+
+            }
+            //enter value for some variable
+            if (command_from_line == spaces + "input" && command_executed != true) {
+                command_executed = true;
+                spaces.clear();
+                //cout<<"test3"<<endl;
+                input_function(current_line_number,query);
 
 
 
