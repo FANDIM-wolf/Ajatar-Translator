@@ -9,6 +9,8 @@ Ajatar translator
 #include <vector>
 
 #include "Ajatar_Translator.h";
+// boolean parser 
+//#include "Boolean_Parser.h";
 using namespace std;
 
 // get from string int number , for example "100" => 100
@@ -480,7 +482,7 @@ void analyse_line(int current_line_number, string current_line ) {
             //cout << command_from_line << endl;
 
             //cout<<"test2"<<query[i]<<i<<endl;
-            if (command_from_line == spaces + "print" && command_executed != true) {
+            if (command_from_line == spaces + "print" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
                 command_executed = true;
                 spaces.clear();
                 //cout<<"test3"<<endl;
@@ -490,7 +492,7 @@ void analyse_line(int current_line_number, string current_line ) {
 
             }
             //enter value for some variable
-            if (command_from_line == spaces + "input" && command_executed != true) {
+            if (command_from_line == spaces + "input" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
                 command_executed = true;
                 spaces.clear();
                 //cout<<"test3"<<endl;
@@ -500,22 +502,22 @@ void analyse_line(int current_line_number, string current_line ) {
 
             }
             // create variable with data type int
-            if (command_from_line == "int" && command_executed != true) {
+            if (command_from_line == "int" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
                 command_executed = true;
                 create_variable_int(query, current_line_number);
             }
-            if (command_from_line == spaces + "println" && command_executed != true) {
+            if (command_from_line == spaces + "println" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
                 command_executed = true;
                 spaces.clear();
                 //cout<<"test3"<<endl;
                 println(query);
             }
-            if (command_from_line == spaces + "int" && command_executed != true) {
+            if (command_from_line == spaces + "int" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
                 command_executed = true;
                 spaces.clear();
                 create_variable_int(query, current_line_number);
             }
-            if (is_it_may_be_variable(command_from_line) == 1 && command_executed != true)
+            if (is_it_may_be_variable(command_from_line) == 1 && command_executed != true && PROMOTION_TO_RUN_CODE == true)
             {   
                 
                 command_executed = true;
@@ -557,7 +559,8 @@ int get_file() {
         }
 
         if (line != " " && line != "#END" && line != "#BEGIN") {
-            analyse_line(counter_line, line);
+            // number of line and line are arguments
+            analyse_line(counter_line, line);// number of line and line are arguments
 
         }
 
@@ -568,11 +571,10 @@ int get_file() {
 
 int main()
 {
-
-    //cout << "@Ajatar 0.1" << endl;
+    PROMOTION_TO_RUN_CODE = true;
+    //pass source code to proccessing 
     get_file();
   
-    //double a = te_interp("((5+5)*5/5)", 0); /* Returns 10. */
-    //cout << a << endl;
+    
     return 0;
 }

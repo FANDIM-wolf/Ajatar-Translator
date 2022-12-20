@@ -4,6 +4,9 @@
 #include <string>
 #include <cstdio>
 #include <vector>
+#include <queue>
+#include <stack>
+#include <map>
 // basic tools
 #include "Integer.cpp";
 //parser  for manth expressions
@@ -15,13 +18,14 @@
 
 using namespace std;
 
+bool PROMOTION_TO_RUN_CODE; // Sometimes it does not read a code
+
 //buffer for variables
 vector <Integer> VARIABLES_INTEGER;
 vector <string> vector_of_expressions;
 vector <string> Tokens_from_expression;
 
 //return value of variable from vector VARIABKES_INTEGER
-
 
 
 
