@@ -14,7 +14,7 @@ using namespace std;
 class Statement {
 public:
 
-	int pk; //to get access for object
+	int pk; //to get access to object
 	
 	int type_of_statement;
 	void edit_information_about_current_object(int pk , int type_of_statement ) {
