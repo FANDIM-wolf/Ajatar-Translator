@@ -1,4 +1,4 @@
-/*
+﻿/*
 Ajatar translator
 */
 
@@ -9,6 +9,8 @@ Ajatar translator
 #include <vector>
 
 #include "Ajatar_Translator.h";
+// boolean parser 
+//#include "Boolean_Parser.h";
 using namespace std;
 
 // get from string int number , for example "100" => 100
@@ -96,7 +98,10 @@ void print_exrpession(string expression) {
                 current_value_for_printing_in_console = 0;
                 expression_checked = true;
                 //clear char array
-                memset(math_expression, 0, sizeof(math_expression));
+                for (int k = 0; k <= j.size(); k++)
+                {
+                    math_expression[k] = NULL;
+                }
 
 
             }
@@ -133,7 +138,10 @@ void print_exrpession(string expression) {
                 //print result of math expression in console 
                 cout << result_in_console << endl;
                 //clear char array
-                memset(math_expression, 0, sizeof(math_expression));
+                for (int k = 0; k <= j.size(); k++)
+                {
+                    math_expression[k] = NULL;
+                }
                 final_expression_from_tokens.erase();
                
                 expression_for_array.erase();
@@ -195,12 +203,15 @@ int change_value_int(string expression , string name_of_var) {
     string expression_for_array , name_of_var_true;
     name_of_var_true = name_of_var;
     // check for math expression
-
+    //cout << "Start" << endl;
     string final_expression_from_tokens;
+    //cout << vector_of_expressions.size() << endl;
     for (auto j : vector_of_expressions) {
+        
+        
         //cout << "Current Element:  " << j << endl;
         for (int i = 0; i <= j.size(); i++) {
-
+            
             if ((j[i] == '+' || j[i] == '-' || j[i] == '*' || j[i] == '/' || j[i] == '%') && expression_checked != true) {
                 //cout << "WORK WITH EXPRESSION!";
                 // copy string in char array 
@@ -216,7 +227,10 @@ int change_value_int(string expression , string name_of_var) {
                 current_value_for_printing_in_console = 0;
                 expression_checked = true;
                 //clear char array
-                memset(math_expression, 0, sizeof(math_expression));
+                for (int k = 0; k <= j.size(); k++)
+                {
+                    math_expression[k] = NULL;
+                }
                 expression_checked = false;
                 vector_of_expressions.clear(); // clear all vector to use print again.
                 return current_value_for_printing_in_console;
@@ -229,7 +243,7 @@ int change_value_int(string expression , string name_of_var) {
 
                 //cout << "Final string:" << final_expression_from_tokens << endl;
                 Tokens_from_expression = from_string_to_vector(j); // split string to tokens
-
+                //cout<< "J element : " << j << endl;
 
                 final_expression_from_tokens = from_vector_to_string(); // get expression with only numbers
                 //cout << "Final string:" << final_expression_from_tokens << endl;
@@ -256,7 +270,10 @@ int change_value_int(string expression , string name_of_var) {
                 //cout <<"Result " << result_in_console << endl;
                 
                 //clear char array
-                memset(math_expression, 0, sizeof(math_expression));
+                for (int k = 0; k <= j.size(); k++)
+                {
+                    math_expression[k] = NULL;
+                }
                 final_expression_from_tokens.erase();
              
                 expression_for_array.erase();
@@ -393,13 +410,17 @@ int  analyse_content_in_line(int current_line_number, string current_line, strin
 
     // get name and name of variable
     name_of_variable = query.substr(0, position_of_sign_equal ); // get raw name of variable (probably with spaces)
-    length_of_expression = position_end_of_line - position_of_sign_equal;
+    length_of_expression = position_end_of_line+1 - position_of_sign_equal;
     
     expression = query.substr(position_of_sign_equal+1, length_of_expression);
-    
+    //cout << "EXPRESSION" << "|" << expression << endl;
     
     name_of_variable = define_accurate_name_of_variable(name_of_variable);
+    expression = define_accurate_name_of_variable(expression);
+    //cout << "EXPRESSION 2" << "|"<< expression << endl;
+    //cout << "Name" << "|" << name_of_variable << endl;
     result_in_console = change_value_int(expression, name_of_variable);
+    //cout <<"result in console" << result_in_console << endl;
     for (int v = 0; v < VARIABLES_INTEGER.size(); v++) {
         if (name_of_variable == VARIABLES_INTEGER[v].name) {
             //cout << VARIABLES_INTEGER[v].name << endl;
@@ -415,7 +436,74 @@ int  analyse_content_in_line(int current_line_number, string current_line, strin
 
 
 }
+void sqrt_for_variable(string current_line , int current_line_number) {
+    string data_from_brackets;
+    int first_bracket;
+    int second_bracket;
+    double new_value;
+    first_bracket = current_line.find("(");
+    second_bracket = current_line.find(")");
+    data_from_brackets = current_line.substr(first_bracket+1, (second_bracket - first_bracket)-1);
+    //---------------------------------------------------------------------------------------
+    
+    data_from_brackets = define_accurate_name_of_variable(data_from_brackets); // get accurate name of variable
+    if (is_variable_already_exists(data_from_brackets) == 1) {
+        for (int v = 0; v < VARIABLES_INTEGER.size(); v++) {
+            if (data_from_brackets == VARIABLES_INTEGER[v].name) {
 
+                new_value = execute_command_sqrt(VARIABLES_INTEGER[v].value);
+                //cout << VARIABLES_INTEGER[v].name << endl;
+                VARIABLES_INTEGER[v].value = new_value;
+
+
+            }
+        }
+    }
+    else {
+        cout << "ERROR:" << "Variable is not found:" << data_from_brackets << ", Line:" << current_line_number << endl;
+    }
+
+
+}
+
+
+void pow_for_variable(string current_line, int current_line_number) {
+    string data_from_brackets, first_argument_value, second_argument_in_string;
+
+    int  first_bracket, second_bracket, comma, position_of_first_argument, position_of_second_argument, length_of_first_argument, length_of_second_argument, second_argument_in_int , degree;
+    double new_value;
+    first_bracket = current_line.find("(");
+    second_bracket = current_line.find(")");
+    data_from_brackets = current_line.substr(first_bracket, (second_bracket - first_bracket));
+    comma = data_from_brackets.find(",");
+    position_of_first_argument = data_from_brackets.find("(");
+    position_of_second_argument = data_from_brackets.find(")");
+
+    first_argument_value = data_from_brackets.substr(position_of_first_argument + 1, comma - position_of_first_argument - 1);
+    second_argument_in_string = data_from_brackets.substr(comma + 1, (position_of_second_argument - comma) - 1);
+    //define true value of arguments
+    first_argument_value = define_accurate_name_of_variable(first_argument_value);
+    second_argument_in_string = define_accurate_name_of_variable(second_argument_in_string);
+    
+
+    if (is_variable_already_exists(first_argument_value) == 1) {
+        for (int v = 0; v < VARIABLES_INTEGER.size(); v++) {
+            if (first_argument_value == VARIABLES_INTEGER[v].name) {
+                degree = get_int_number_from_string(second_argument_in_string);
+                new_value = pow(VARIABLES_INTEGER[v].value,degree);
+                //cout << VARIABLES_INTEGER[v].name << endl;
+                VARIABLES_INTEGER[v].value = new_value;
+             
+
+
+            }
+        }
+    }
+    else {
+        cout << "ERROR:" << "Variable is not found:" << data_from_brackets << ", Line:" << current_line_number << endl;
+    }
+
+}
 
 void input_function(int current_line_number, string current_line) {
     
@@ -480,7 +568,7 @@ void analyse_line(int current_line_number, string current_line ) {
             //cout << command_from_line << endl;
 
             //cout<<"test2"<<query[i]<<i<<endl;
-            if (command_from_line == spaces + "print" && command_executed != true) {
+            if (command_from_line == spaces + "print" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
                 command_executed = true;
                 spaces.clear();
                 //cout<<"test3"<<endl;
@@ -490,7 +578,7 @@ void analyse_line(int current_line_number, string current_line ) {
 
             }
             //enter value for some variable
-            if (command_from_line == spaces + "input" && command_executed != true) {
+            if (command_from_line == spaces + "input" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
                 command_executed = true;
                 spaces.clear();
                 //cout<<"test3"<<endl;
@@ -500,28 +588,44 @@ void analyse_line(int current_line_number, string current_line ) {
 
             }
             // create variable with data type int
-            if (command_from_line == "int" && command_executed != true) {
+            if (command_from_line == "int" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
                 command_executed = true;
                 create_variable_int(query, current_line_number);
             }
-            if (command_from_line == spaces + "println" && command_executed != true) {
+            if (command_from_line == spaces + "println" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
                 command_executed = true;
                 spaces.clear();
                 //cout<<"test3"<<endl;
                 println(query);
             }
-            if (command_from_line == spaces + "int" && command_executed != true) {
+            if (command_from_line == spaces + "int" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
                 command_executed = true;
                 spaces.clear();
                 create_variable_int(query, current_line_number);
             }
-            if (is_it_may_be_variable(command_from_line) == 1 && command_executed != true)
+            if (is_it_may_be_variable(command_from_line) == 1 && command_executed != true && PROMOTION_TO_RUN_CODE == true)
             {   
                 
                 command_executed = true;
                 spaces.clear();
                 
                 analyse_content_in_line(current_line_number, current_line , command_from_line);
+            }
+            if (command_from_line == spaces + "pow" && command_executed != true && PROMOTION_TO_RUN_CODE == true)
+            {
+                // rewrite
+                command_executed = true;
+                spaces.clear();
+
+                pow_for_variable(query,current_line_number);
+            }
+            if (command_from_line == spaces + "sqrt" && command_executed != true && PROMOTION_TO_RUN_CODE == true)
+            {
+
+                command_executed = true;
+                spaces.clear();
+
+                sqrt_for_variable(query, current_line_number);
             }
             
 
@@ -557,7 +661,8 @@ int get_file() {
         }
 
         if (line != " " && line != "#END" && line != "#BEGIN") {
-            analyse_line(counter_line, line);
+            // number of line and line are arguments
+            analyse_line(counter_line, line);// number of line and line are arguments
 
         }
 
@@ -567,12 +672,14 @@ int get_file() {
 }
 
 int main()
-{
+{   
 
-    //cout << "@Ajatar 0.1" << endl;
+   
+
+    PROMOTION_TO_RUN_CODE = true;
+    //pass source code to proccessing 
     get_file();
   
-    //double a = te_interp("((5+5)*5/5)", 0); /* Returns 10. */
-    //cout << a << endl;
+    
     return 0;
 }
