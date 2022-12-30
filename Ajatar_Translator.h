@@ -7,6 +7,7 @@
 #include <queue>
 #include <stack>
 #include <map>
+#include <math.h>
 // basic tools
 #include "Integer.cpp";
 //parser  for manth expressions
@@ -15,6 +16,8 @@
 #include "Tokens.h";
 //functions for work of Alphabet
 #include "Alphabet.h";
+//function for work with Statement
+#include "Statement.cpp";
 
 using namespace std;
 
@@ -27,6 +30,8 @@ vector <string> Tokens_from_expression;
 
 //return value of variable from vector VARIABKES_INTEGER
 
+//types of statements  
+enum STATEMENTS {IF , WHILE};
 
 
 string define_accurate_name_of_variable(string var) {
@@ -93,6 +98,7 @@ void grab_variables(string raw_string) {
 			current_var = define_accurate_name_of_variable(current_var);
 
 			vector_of_expressions.push_back(current_var);
+			//cout << vector_of_expressions.size() << "size of vector of expressions" << endl;
 			current_var.erase();
 		}
 	}
@@ -135,7 +141,7 @@ int is_variable_already_exists(string name_of_variable) {
 	return 0;
 }
 
-//check it is command or not , it is used in function "analayse_line"
+//check it is variable or not , it is used in function "analayse_line"
 int is_it_may_be_variable(string command) {
 	command = define_accurate_name_of_variable(command);//remove previous spaces
 	if (is_variable_already_exists(command) == 1) {
@@ -195,5 +201,13 @@ string from_vector_to_string() {
 	//cout << return_value_of_variable(Tokens_from_expression[Tokens_from_expression.size() - 1], Tokens_from_expression.size(), Tokens_from_expression.size()) << endl;
 	
 	return final_expression;
+}
+
+// return result of command sqrt
+double execute_command_sqrt(double number) {
+	double value = sqrt(number);
+
+	return value;
+	
 }
 
