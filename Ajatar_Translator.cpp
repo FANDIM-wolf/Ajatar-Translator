@@ -541,13 +541,49 @@ void input_function(int current_line_number, string current_line) {
     
 }
 
-    
+
+//function for work with statement if
+void get_data_from_statement(string line) {
+    bool bool_sign_check = false;
+    string statement, arguments, variables, first_variable_name, second_variable_name, bool_sign, condition_to_work;
+    int bool_sign_position;
+    statement = line.substr(line.find("i"), (line.find(":") - line.find("i")) + 1);
+    cout << statement << endl;
+    arguments = statement.substr(statement.find("(") + 1, (statement.find(")") - statement.find("(")) - 1);
+    cout << arguments << endl;
+    variables = arguments.substr(0, arguments.find(";"));
+    cout << variables << endl;
+    for (int i = 0; i < variables.size(); i++) {
+        if ((variables[i] == '!' || variables[i] == '=') && bool_sign_check == false) {
+            bool_sign = variables[i] + variables[i++];
+            bool_sign_position = i;
+            cout << bool_sign_position << endl;
+            first_variable_name = variables.substr(0, bool_sign_position - 1);
+            second_variable_name = variables.substr(bool_sign_position + 1, variables.size() - bool_sign_position);
+            cout << first_variable_name << "||" << second_variable_name << endl;
+            bool_sign_check = true;
+
+        }
+        if ((variables[i] == '>' || variables[i] == '<') && bool_sign_check == false) {
+            bool_sign = variables[i];
+            bool_sign_position = i;
+            cout << bool_sign_position << endl;
+            first_variable_name = variables.substr(0, bool_sign_position);
+            second_variable_name = variables.substr(bool_sign_position + 1, variables.size() - bool_sign_position);
+            cout << first_variable_name << "||" << second_variable_name << endl;
+            bool_sign_check = true;
+        }
+
+    }
+    condition_to_work = statement.substr(statement.find(";") + 1, (statement.find(")") - statement.find(";")) - 1);
+    cout << condition_to_work << endl;
+}
 
 
 
 // check for command
 void analyse_line(int current_line_number, string current_line ) {
-
+   
     string query = current_line;
     string command_from_line;
     string spaces;
@@ -627,6 +663,14 @@ void analyse_line(int current_line_number, string current_line ) {
 
                 sqrt_for_variable(query, current_line_number);
             }
+            if (command_from_line == spaces + "if" && command_executed != true && PROMOTION_TO_RUN_CODE == true)
+            {
+                
+                command_executed = true;
+                spaces.clear();
+                get_data_from_statement(query);
+                
+            }
             
 
 
@@ -673,9 +717,8 @@ int get_file() {
 
 int main()
 {   
-
-   
-
+    
+    
     PROMOTION_TO_RUN_CODE = true;
     //pass source code to proccessing 
     get_file();
