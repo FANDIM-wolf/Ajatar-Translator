@@ -18,6 +18,8 @@
 #include "Alphabet.h";
 //function for work with Statement
 #include "Statement.cpp";
+//functions with logical operations
+#include "Bool_operations.h";
 
 using namespace std;
 
@@ -44,6 +46,19 @@ string define_accurate_name_of_variable(string var) {
 	}
 
 	return accurate_name;
+}
+
+
+int return_value_of_variable_simple(string name_of_vairable) {
+	
+
+	for (auto i : VARIABLES_INTEGER) {
+		if (i.name == name_of_vairable) {
+			return i.value;
+		}
+	}
+
+	
 }
 
 string return_value_of_variable(string name_of_vairable , int iterator , int size_of_array) {
