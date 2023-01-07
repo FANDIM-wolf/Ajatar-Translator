@@ -545,38 +545,107 @@ void input_function(int current_line_number, string current_line) {
 //function for work with statement if
 void get_data_from_statement(string line) {
     bool bool_sign_check = false;
-    string statement, arguments, variables, first_variable_name, second_variable_name, bool_sign, condition_to_work;
-    int bool_sign_position;
+    string statement, arguments, variables, first_variable_name, second_variable_name, bool_sign, condition_to_work ;
+    int bool_sign_position , first_variable_value , second_variable_value , result , condition_to_work_value;
+    int status_of_last_element;
+    result = 1;
+    condition_to_work_value = 0;
     statement = line.substr(line.find("i"), (line.find(":") - line.find("i")) + 1);
-    cout << statement << endl;
+    //cout << statement << endl;
     arguments = statement.substr(statement.find("(") + 1, (statement.find(")") - statement.find("(")) - 1);
-    cout << arguments << endl;
+    //cout << arguments << endl;
     variables = arguments.substr(0, arguments.find(";"));
-    cout << variables << endl;
+    //cout << variables << endl;
     for (int i = 0; i < variables.size(); i++) {
         if ((variables[i] == '!' || variables[i] == '=') && bool_sign_check == false) {
             bool_sign = variables[i] + variables[i++];
             bool_sign_position = i;
-            cout << bool_sign_position << endl;
+            //cout << bool_sign_position << endl;
             first_variable_name = variables.substr(0, bool_sign_position - 1);
             second_variable_name = variables.substr(bool_sign_position + 1, variables.size() - bool_sign_position);
-            cout << first_variable_name << "||" << second_variable_name << endl;
+            //cout << first_variable_name << "||" << second_variable_name << endl;
             bool_sign_check = true;
 
         }
         if ((variables[i] == '>' || variables[i] == '<') && bool_sign_check == false) {
             bool_sign = variables[i];
             bool_sign_position = i;
-            cout << bool_sign_position << endl;
+            //cout << bool_sign_position << endl;
             first_variable_name = variables.substr(0, bool_sign_position);
             second_variable_name = variables.substr(bool_sign_position + 1, variables.size() - bool_sign_position);
-            cout << first_variable_name << "||" << second_variable_name << endl;
+            //cout << first_variable_name << "||" << second_variable_name << endl;
             bool_sign_check = true;
         }
 
     }
     condition_to_work = statement.substr(statement.find(";") + 1, (statement.find(")") - statement.find(";")) - 1);
-    cout << condition_to_work << endl;
+    //condition_to_work = define_accurate_name_of_variable(condition_to_work);
+    //cout << condition_to_work << endl;
+    first_variable_name = define_accurate_name_of_variable(first_variable_name);
+    second_variable_name = define_accurate_name_of_variable(second_variable_name);
+    first_variable_value = return_value_of_variable_simple(first_variable_name);
+    second_variable_value = return_value_of_variable_simple(second_variable_name);
+
+    //cout << condition_to_work << endl;
+    if (condition_to_work == "false") {
+        //cout << "false" << endl;
+        condition_to_work_value = 0;
+        result = is_condition_work(first_variable_value, second_variable_value, bool_sign, condition_to_work_value);
+        if (result == condition_to_work_value) {
+            //cout << "WORK" << endl;
+
+            status_of_last_element = get_status_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS - 1);
+
+            if (status_of_last_element == 1 || AMOUNT_OF_STATEMENTS == 0) {
+                PROMOTION_TO_RUN_CODE = true;
+            }
+            Statement OBJECT_IF;
+
+            OBJECT_IF.edit_information_about_current_object(AMOUNT_OF_STATEMENTS++, 0,1);
+            //add current statement in common vector for statements 
+            STATETMENTS_IF.push_back(OBJECT_IF);
+
+            
+        }
+        else {
+            PROMOTION_TO_RUN_CODE = false;
+            Statement OBJECT_IF;
+
+            OBJECT_IF.edit_information_about_current_object(AMOUNT_OF_STATEMENTS++, 0, 0);
+            //add current statement in common vector for statements 
+            STATETMENTS_IF.push_back(OBJECT_IF);
+        }
+        
+    }
+    if (condition_to_work == "true") {
+        //cout << "true value" << endl;
+        condition_to_work_value = 1;
+        result = is_condition_work(first_variable_value, second_variable_value, bool_sign, condition_to_work_value);
+        if (result == condition_to_work_value) {
+            //cout << "WORK" << endl;
+            status_of_last_element = get_status_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS - 1);
+
+            if (status_of_last_element == 1 || AMOUNT_OF_STATEMENTS == 0) {
+                PROMOTION_TO_RUN_CODE = true;
+            }
+            Statement OBJECT_IF;
+
+            OBJECT_IF.edit_information_about_current_object(AMOUNT_OF_STATEMENTS++, 0, 1);
+            //add current statement in common vector for statements 
+            STATETMENTS_IF.push_back(OBJECT_IF);
+        }
+        else {
+            PROMOTION_TO_RUN_CODE = false;
+            Statement OBJECT_IF;
+
+            OBJECT_IF.edit_information_about_current_object(AMOUNT_OF_STATEMENTS++, 0, 0);
+            //add current statement in common vector for statements 
+            STATETMENTS_IF.push_back(OBJECT_IF);
+        }
+    }
+    //cout << result << endl;
+
+    
 }
 
 
@@ -588,6 +657,8 @@ void analyse_line(int current_line_number, string current_line ) {
     string command_from_line;
     string spaces;
     bool command_executed = false;
+    int status_of_last_element;
+
 
     for (int i = 0; i <= query.size(); i++) {
 
@@ -663,13 +734,37 @@ void analyse_line(int current_line_number, string current_line ) {
 
                 sqrt_for_variable(query, current_line_number);
             }
-            if (command_from_line == spaces + "if" && command_executed != true && PROMOTION_TO_RUN_CODE == true)
+            if (command_from_line == spaces + "if" && command_executed != true )
             {
-                
-                command_executed = true;
-                spaces.clear();
-                get_data_from_statement(query);
-                
+                status_of_last_element = get_status_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS-1);
+
+                //cout << status_of_last_element << endl;
+                //if (status_of_last_element == 1 || AMOUNT_OF_STATEMENTS == 0) {
+                    command_executed = true;
+                    //cout << AMOUNT_OF_STATEMENTS << "SSS" << endl;
+                    spaces.clear();
+                    get_data_from_statement(query);
+                //}
+            }
+            if (command_from_line == spaces + ".end" && command_executed != true )
+            {   
+                if (AMOUNT_OF_STATEMENTS != 0) {
+                    status_of_last_element = get_status_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS - 1);
+
+                    if (status_of_last_element == 0 ) {
+                        AMOUNT_OF_STATEMENTS--;
+                        STATETMENTS_IF.pop_back();
+                        PROMOTION_TO_RUN_CODE = true;
+                    }
+                    if (status_of_last_element == 1) {
+                        AMOUNT_OF_STATEMENTS--;
+                        STATETMENTS_IF.pop_back();
+                        PROMOTION_TO_RUN_CODE = true;
+                    }
+                }
+                else {
+                    cout << "There is no any if statement , LINE: " << current_line_number << endl;
+                }
             }
             
 
@@ -722,7 +817,7 @@ int main()
     PROMOTION_TO_RUN_CODE = true;
     //pass source code to proccessing 
     get_file();
-  
+    cout << STATETMENTS_IF.size() << endl;
     
     return 0;
 }
