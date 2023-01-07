@@ -18,8 +18,7 @@
 #include "Alphabet.h";
 //function for work with Statement
 #include "Statement.cpp";
-//functions with logical operations
-#include "Bool_operations.h";
+
 
 using namespace std;
 
@@ -29,6 +28,8 @@ bool PROMOTION_TO_RUN_CODE; // Sometimes it does not read a code
 vector <Integer> VARIABLES_INTEGER;
 vector <string> vector_of_expressions;
 vector <string> Tokens_from_expression;
+vector <Statement> STATETMENTS_IF;
+int AMOUNT_OF_STATEMENTS = 0;
 
 //return value of variable from vector VARIABKES_INTEGER
 
@@ -140,6 +141,22 @@ void grab_variables(string raw_string) {
 
 }
 
+int get_status_of_last_element_in_vector_of_STATEMENTS_IF(int pk_of_last_element) {
+	int status_of_last_element;
+	if (STATETMENTS_IF.size() == 0) {
+		return 1;
+	}
+	for (auto i : STATETMENTS_IF) {
+		if (i.pk == pk_of_last_element) {
+			if (i.status == 1) {
+				return 1;
+			}
+			if (i.status == 0) {
+				return 0;
+			}
+		}
+	}
+}
 
 
 //returns 1 if variable already exists.
@@ -226,3 +243,107 @@ double execute_command_sqrt(double number) {
 	
 }
 
+
+
+int is_equal(int first_variable, int second_variable, int condition_to_work) {
+
+	if (first_variable == second_variable) {
+		return 1;
+
+	}
+	else {
+		return 32;
+	}
+}
+
+int is_not_equal(int first_variable, int second_variable, int condition_to_work) {
+
+	if (first_variable != second_variable) {
+		return 1;
+
+	}
+	else {
+		return 32;
+	}
+}
+
+int is_less(int first_variable, int second_variable, int condition_to_work) {
+
+	if (first_variable < second_variable) {
+		return 1;
+
+	}
+	else {
+		return 0;
+	}
+}
+
+int is_more(int first_variable, int second_variable, int condition_to_work) {
+
+	if (first_variable > second_variable) {
+		return 1;
+
+	}
+	else {
+		return 0;
+	}
+}
+
+
+
+int is_condition_work(int first_variable, int second_variable, string bool_sign, int condition_to_work) {
+	int result, result_of_expression;
+	result = 0;
+
+	if (bool_sign == ">") {
+		result = is_more(first_variable, second_variable, condition_to_work);
+		if (result == condition_to_work) {
+		
+			return result;
+		}
+		else {
+			return 32;
+		}
+		//return result;
+	}
+	if (bool_sign == "<") {
+		result = is_less(first_variable, second_variable, condition_to_work);
+		if (result == condition_to_work) {
+			cout << "Work!" << endl;
+			return result;
+		}
+		else {
+			return 32;
+		}
+		//return result;
+	}
+	if (bool_sign == "!=") {
+		result = is_not_equal(first_variable, second_variable, condition_to_work);
+		if (result == condition_to_work) {
+			cout << "Work!" << endl;
+			return result;
+		}
+		else {
+			return 32;
+		}
+		//return result;
+	}
+	if (bool_sign == "==") {
+		result = is_equal(first_variable, second_variable, condition_to_work);
+		
+		if (result == condition_to_work) {
+			cout << "Work!" << endl;
+			return result;
+		}
+		else {
+			return 32;
+		}
+		//return result;
+	}
+
+
+
+	return 0;
+
+
+}
