@@ -651,130 +651,130 @@ void get_data_from_statement(string line) {
 
 
 // check for command
-void analyse_line(int current_line_number, string current_line ) {
+void analyse_line(int current_line_number, string current_line  ) {
    
     string query = current_line;
     string command_from_line;
     string spaces;
     bool command_executed = false;
-    int status_of_last_element;
-
+    int status_of_last_element ;
+   
 
     for (int i = 0; i <= query.size(); i++) {
+        
+            //cout<<"test"<<endl;
+            if (query[i] != '(' || query[i] != '=' || query[i] != ';') {
 
-        //cout<<"test"<<endl;
-        if (query[i] != '(' || query[i] != '=' || query[i] != ';') {
-
-            if (int(query[i]) == 32) {
-                spaces += query[i];
-            }
-
-
-            command_from_line += query[i];
-            //define_accurate_name_of_command(command_from_line);
-            //cout << command_from_line << endl;
-
-            //cout<<"test2"<<query[i]<<i<<endl;
-            if (command_from_line == spaces + "print" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
-                command_executed = true;
-                spaces.clear();
-                //cout<<"test3"<<endl;
-                println(query);
+                if (int(query[i]) == 32) {
+                    spaces += query[i];
+                }
 
 
+                command_from_line += query[i];
+                //define_accurate_name_of_command(command_from_line);
+                //cout << command_from_line << endl;
 
-            }
-            //enter value for some variable
-            if (command_from_line == spaces + "input" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
-                command_executed = true;
-                spaces.clear();
-                //cout<<"test3"<<endl;
-                input_function(current_line_number,query);
+                //cout<<"test2"<<query[i]<<i<<endl;
+                if (command_from_line == spaces + "print" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
+                    command_executed = true;
+                    spaces.clear();
+                    //cout<<"test3"<<endl;
+                    println(query);
 
 
 
-            }
-            // create variable with data type int
-            if (command_from_line == "int" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
-                command_executed = true;
-                create_variable_int(query, current_line_number);
-            }
-            if (command_from_line == spaces + "println" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
-                command_executed = true;
-                spaces.clear();
-                //cout<<"test3"<<endl;
-                println(query);
-            }
-            if (command_from_line == spaces + "int" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
-                command_executed = true;
-                spaces.clear();
-                create_variable_int(query, current_line_number);
-            }
-            if (is_it_may_be_variable(command_from_line) == 1 && command_executed != true && PROMOTION_TO_RUN_CODE == true)
-            {   
-                
-                command_executed = true;
-                spaces.clear();
-                
-                analyse_content_in_line(current_line_number, current_line , command_from_line);
-            }
-            if (command_from_line == spaces + "pow" && command_executed != true && PROMOTION_TO_RUN_CODE == true)
-            {
-                // rewrite
-                command_executed = true;
-                spaces.clear();
+                }
+                //enter value for some variable
+                if (command_from_line == spaces + "input" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
+                    command_executed = true;
+                    spaces.clear();
+                    //cout<<"test3"<<endl;
+                    input_function(current_line_number, query);
 
-                pow_for_variable(query,current_line_number);
-            }
-            if (command_from_line == spaces + "sqrt" && command_executed != true && PROMOTION_TO_RUN_CODE == true)
-            {
 
-                command_executed = true;
-                spaces.clear();
 
-                sqrt_for_variable(query, current_line_number);
-            }
-            if (command_from_line == spaces + "if" && command_executed != true )
-            {
-                status_of_last_element = get_status_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS-1);
+                }
+                // create variable with data type int
+                if (command_from_line == "int" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
+                    command_executed = true;
+                    create_variable_int(query, current_line_number);
+                }
+                if (command_from_line == spaces + "println" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
+                    command_executed = true;
+                    spaces.clear();
+                    //cout<<"test3"<<endl;
+                    println(query);
+                }
+                if (command_from_line == spaces + "int" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
+                    command_executed = true;
+                    spaces.clear();
+                    create_variable_int(query, current_line_number);
+                }
+                if (is_it_may_be_variable(command_from_line) == 1 && command_executed != true && PROMOTION_TO_RUN_CODE == true)
+                {
 
-                //cout << status_of_last_element << endl;
-                //if (status_of_last_element == 1 || AMOUNT_OF_STATEMENTS == 0) {
+                    command_executed = true;
+                    spaces.clear();
+
+                    analyse_content_in_line(current_line_number, current_line, command_from_line);
+                }
+                if (command_from_line == spaces + "pow" && command_executed != true && PROMOTION_TO_RUN_CODE == true)
+                {
+                    // rewrite
+                    command_executed = true;
+                    spaces.clear();
+
+                    pow_for_variable(query, current_line_number);
+                }
+                if (command_from_line == spaces + "sqrt" && command_executed != true && PROMOTION_TO_RUN_CODE == true)
+                {
+
+                    command_executed = true;
+                    spaces.clear();
+
+                    sqrt_for_variable(query, current_line_number);
+                }
+                if (command_from_line == spaces + "if" && command_executed != true)
+                {
+                    status_of_last_element = get_status_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS - 1);
+
+                    //cout << status_of_last_element << endl;
+                    //if (status_of_last_element == 1 || AMOUNT_OF_STATEMENTS == 0) {
                     command_executed = true;
                     //cout << AMOUNT_OF_STATEMENTS << "SSS" << endl;
                     spaces.clear();
                     get_data_from_statement(query);
-                //}
-            }
-            if (command_from_line == spaces + ".end" && command_executed != true )
-            {   
-                if (AMOUNT_OF_STATEMENTS != 0) {
-                    status_of_last_element = get_status_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS - 1);
+                    //}
+                }
+                if (command_from_line == spaces + ".end" && command_executed != true)
+                {
+                    if (AMOUNT_OF_STATEMENTS != 0) {
+                        status_of_last_element = get_status_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS - 1);
 
-                    if (status_of_last_element == 0 ) {
-                        AMOUNT_OF_STATEMENTS--;
-                        STATETMENTS_IF.pop_back();
-                        PROMOTION_TO_RUN_CODE = true;
+                        if (status_of_last_element == 0) {
+                            AMOUNT_OF_STATEMENTS--;
+                            STATETMENTS_IF.pop_back();
+                            PROMOTION_TO_RUN_CODE = true;
+                        }
+                        if (status_of_last_element == 1) {
+                            AMOUNT_OF_STATEMENTS--;
+                            STATETMENTS_IF.pop_back();
+                            PROMOTION_TO_RUN_CODE = true;
+                        }
                     }
-                    if (status_of_last_element == 1) {
-                        AMOUNT_OF_STATEMENTS--;
-                        STATETMENTS_IF.pop_back();
-                        PROMOTION_TO_RUN_CODE = true;
+                    else {
+                        cout << "There is no any if statement , LINE: " << current_line_number << endl;
                     }
                 }
-                else {
-                    cout << "There is no any if statement , LINE: " << current_line_number << endl;
-                }
-            }
-            
 
+
+
+            }
+
+        
 
         }
-
-
-
-    }
-
+    
 
 }
 
@@ -782,13 +782,14 @@ void analyse_line(int current_line_number, string current_line ) {
 
 
 //count lines , define where "begin" and "end " of program.
-int get_file() {
+int get_file(int start_line , bool PERMISSION_TO_EXECUTE_PROGRAMM) {
     int counter_line = 0;
     ifstream input("Program.txt");
     string line;
-
+    int number_line = start_line;
+    //cout << PERMISSION_TO_EXECUTE_PROGRAMM << endl;
     while (getline(input, line)) {
-        counter_line += 1;
+        
         if (line == "#BEGIN") {
             //cout<<"Start of Program: '#Begin'"<<"Line:"<<counter_line<<endl;
 
@@ -800,10 +801,16 @@ int get_file() {
         }
 
         if (line != " " && line != "#END" && line != "#BEGIN") {
-            // number of line and line are arguments
-            analyse_line(counter_line, line);// number of line and line are arguments
-
+            if (number_line == counter_line) {
+                PERMISSION_TO_EXECUTE_PROGRAMM = true;
+            }
+            if (PERMISSION_TO_EXECUTE_PROGRAMM == true){
+                // number of line and line are arguments
+                analyse_line(counter_line, line);// number of line and line are arguments  
+            }
+            counter_line++;
         }
+        
 
     }
 
@@ -815,9 +822,10 @@ int main()
     
     
     PROMOTION_TO_RUN_CODE = true;
+    
     //pass source code to proccessing 
-    get_file();
-    cout << STATETMENTS_IF.size() << endl;
+    get_file(1, false);
+    //cout << STATETMENTS_IF.size() << endl;
     
     return 0;
 }

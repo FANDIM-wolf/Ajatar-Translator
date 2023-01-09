@@ -31,6 +31,8 @@ vector <string> Tokens_from_expression;
 vector <Statement> STATETMENTS_IF;
 int AMOUNT_OF_STATEMENTS = 0;
 
+bool PERMISSION_TO_EXECUTE_PROGRAMM = false;
+
 //return value of variable from vector VARIABKES_INTEGER
 
 //types of statements  
