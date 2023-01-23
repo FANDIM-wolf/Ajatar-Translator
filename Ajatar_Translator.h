@@ -23,16 +23,23 @@
 using namespace std;
 
 bool PROMOTION_TO_RUN_CODE; // Sometimes it does not read a code
-
+bool OPERATOR_WHILE_IS_WORKING = false; // Turn flag on when operator while is working .
 //buffer for variables
 vector <Integer> VARIABLES_INTEGER;
 vector <string> vector_of_expressions;
 vector <string> Tokens_from_expression;
 vector <Statement> STATETMENTS_IF;
 int AMOUNT_OF_STATEMENTS = 0;
-
+//int AMOUNT_OF_STATEMENTS_IN_OWW_MODE = 0;
 bool PERMISSION_TO_EXECUTE_PROGRAMM = false;
-
+int start_line_loop = 0;
+int final_line_loop = 0;
+// to have access to arguments of conditon
+//global var to keep condition in while 
+int GLOBAL_CONDITION;
+int GLOBAL_FIRST_VAR = 0;
+int GLOBAL_SECOND_VAR = 0; 
+string BOOLEAN_SIGN;
 //return value of variable from vector VARIABKES_INTEGER
 
 //types of statements  
@@ -161,6 +168,51 @@ int get_status_of_last_element_in_vector_of_STATEMENTS_IF(int pk_of_last_element
 }
 
 
+int get_type_of_last_element_in_vector_of_STATEMENTS_IF(int pk_of_last_element) {
+	int status_of_last_element;
+	if (STATETMENTS_IF.size() == 0) {
+		return 32;
+	}
+	for (auto i : STATETMENTS_IF) {
+		if (i.pk == pk_of_last_element) {
+			if (i.type_of_statement == 1) {
+				return 1;
+			}
+			if (i.type_of_statement == 0) {
+				return 0;
+			}
+		}
+	}
+}
+//or get statement of last element
+string get_condition_of_last_element_in_vector_of_STATEMENTS_IF(int pk_of_last_element) {
+	int status_of_last_element;
+	if (STATETMENTS_IF.size() == 0) {
+		return "2323";// it has no any condition
+	}
+	for (auto i : STATETMENTS_IF) {
+		if (i.pk == pk_of_last_element) {
+			return i.statement;
+		}
+	}
+}
+
+
+int get_start_line_of_last_element_in_vector_of_STATEMENTS_IF(int pk_of_last_element) {
+	int status_of_last_element;
+	if (STATETMENTS_IF.size() == 0) {
+		return 32;
+	}
+	for (auto i : STATETMENTS_IF) {
+		if (i.pk == pk_of_last_element) {
+			if (i.start_line > 0 ) {
+				return i.start_line;
+			}
+			
+		}
+	}
+}
+
 //returns 1 if variable already exists.
 int is_variable_already_exists(string name_of_variable) {
 	
@@ -254,6 +306,7 @@ int is_equal(int first_variable, int second_variable, int condition_to_work) {
 
 	}
 	else {
+		
 		return 32;
 	}
 }
@@ -262,9 +315,10 @@ int is_not_equal(int first_variable, int second_variable, int condition_to_work)
 
 	if (first_variable != second_variable) {
 		return 1;
-
+		
 	}
 	else {
+		
 		return 32;
 	}
 }
@@ -311,7 +365,8 @@ int is_condition_work(int first_variable, int second_variable, string bool_sign,
 	if (bool_sign == "<") {
 		result = is_less(first_variable, second_variable, condition_to_work);
 		if (result == condition_to_work) {
-			cout << "Work!" << endl;
+			
+			
 			return result;
 		}
 		else {
@@ -319,10 +374,10 @@ int is_condition_work(int first_variable, int second_variable, string bool_sign,
 		}
 		//return result;
 	}
-	if (bool_sign == "!=") {
+	if (bool_sign == "^") {
 		result = is_not_equal(first_variable, second_variable, condition_to_work);
 		if (result == condition_to_work) {
-			cout << "Work!" << endl;
+			
 			return result;
 		}
 		else {
@@ -330,11 +385,11 @@ int is_condition_work(int first_variable, int second_variable, string bool_sign,
 		}
 		//return result;
 	}
-	if (bool_sign == "==") {
+	if (bool_sign == "z") {
 		result = is_equal(first_variable, second_variable, condition_to_work);
 		
 		if (result == condition_to_work) {
-			cout << "Work!" << endl;
+			
 			return result;
 		}
 		else {
@@ -349,3 +404,5 @@ int is_condition_work(int first_variable, int second_variable, string bool_sign,
 
 
 }
+
+
