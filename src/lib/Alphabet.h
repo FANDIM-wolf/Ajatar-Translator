@@ -99,6 +99,9 @@ int is_number_for_string(string input) {
 
 
 
+
+
+
 int return_1_if_it_consists_number_or_letter_or_math_symbol(char x) {
    
 

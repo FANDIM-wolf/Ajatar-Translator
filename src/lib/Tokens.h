@@ -50,9 +50,7 @@ vector<string> from_string_to_vector(string raw_string) {
 
 
 
-                // copy string in char array 
-
-                //get size of value 
+         
 
 
             tokens.push_back(supposed_string);

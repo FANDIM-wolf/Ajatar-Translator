@@ -80,7 +80,7 @@ int is_condition_work(int first_variable, int second_variable, string bool_sign,
     }
     if (bool_sign == "==") {
         result = is_equal(first_variable, second_variable, condition_to_work);
-        cout << "r!" << endl;
+        //cout << "r!" << endl;
         if (result == condition_to_work) {
             
             return result;
