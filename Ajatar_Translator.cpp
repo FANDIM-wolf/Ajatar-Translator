@@ -16,7 +16,7 @@ using namespace std;
 // get from string int number , for example "100" => 100
 int get_int_number_from_string(string number) {
     
-    cout << "VALUE: " << number << endl;
+    
     int value = stoi(number); // result of function
 
 
