@@ -9,13 +9,14 @@ Ajatar translator
 #include <vector>
 
 #include "Ajatar_Translator.h";
+#include <regex>
 // boolean parser 
 //#include "Boolean_Parser.h";
 using namespace std;
 
 // get from string int number , for example "100" => 100
 int get_int_number_from_string(string number) {
-    
+
     //cout << "VALUE: " << number << endl;
     int value = stoi(number); // result of function
 
@@ -541,107 +542,50 @@ void input_function(int current_line_number, string current_line) {
 
 
 //function for work with statement if
-void get_data_from_statement(string line ) {
+void get_data_from_statement(string line) {
+
+    int  result = get_data_from_statement_check(line);
+
+    //cout << condition_to_work << endl;
+    if (result == 1) {
+        
+        
+            //cout << "WORK" << endl;
+
+            int status_of_last_element = get_status_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS - 1);
+
+            if (status_of_last_element == 1 || AMOUNT_OF_STATEMENTS == 0) {
+                PROMOTION_TO_RUN_CODE = true;
+            }
+            Statement OBJECT_IF;
+            AMOUNT_OF_STATEMENTS++;
+            OBJECT_IF.edit_information_about_current_object(AMOUNT_OF_STATEMENTS, 0, 1, 0 , line); // pk , type , status
+            //add current statement in common vector for statements 
+            STATETMENTS_IF.push_back(OBJECT_IF);
+
+
+        
+
+    }
+    //cout << condition_to_work << endl;
+    if (result == 0) {
+
+
+        //cout << "WORK" << endl;
+
+        
+        Statement OBJECT_IF;
+        AMOUNT_OF_STATEMENTS++;
+        OBJECT_IF.edit_information_about_current_object(AMOUNT_OF_STATEMENTS, 0, 0, 0 , line); // pk , type , status
+        //add current statement in common vector for statements 
+        STATETMENTS_IF.push_back(OBJECT_IF);
+
+
+
+
+    }
+
     
-    bool bool_sign_check = false;
-    string statement, arguments, variables, first_variable_name, second_variable_name, bool_sign, condition_to_work;
-    int bool_sign_position, first_variable_value, second_variable_value, result, condition_to_work_value;
-    int status_of_last_element;
-    result = 1;
-    condition_to_work_value = 0;
-    statement = line.substr(line.find("i"), (line.find(":") - line.find("i")) + 1);
-    //cout << statement << endl;
-    arguments = statement.substr(statement.find("(") + 1, (statement.find(")") - statement.find("(")) - 1);
-    //cout << arguments << endl;
-    variables = arguments.substr(0, arguments.find(";"));
-    //cout << variables << endl;
-    for (int i = 0; i < variables.size(); i++) {
-        if ((variables[i] == '!' || variables[i] == '=') && bool_sign_check == false) {
-            bool_sign = variables[i] + variables[i++];
-            bool_sign_position = i;
-            //cout << bool_sign_position << endl;
-            first_variable_name = variables.substr(0, bool_sign_position - 1);
-            second_variable_name = variables.substr(bool_sign_position + 1, variables.size() - bool_sign_position);
-            //cout << first_variable_name << "||" << second_variable_name << endl;
-            bool_sign_check = true;
-
-        }
-        if ((variables[i] == '>' || variables[i] == '<') && bool_sign_check == false) {
-            bool_sign = variables[i];
-            bool_sign_position = i;
-            //cout << bool_sign_position << endl;
-            first_variable_name = variables.substr(0, bool_sign_position);
-            second_variable_name = variables.substr(bool_sign_position + 1, variables.size() - bool_sign_position);
-            //cout << first_variable_name << "||" << second_variable_name << endl;
-            bool_sign_check = true;
-        }
-
-    }
-    condition_to_work = statement.substr(statement.find(";") + 1, (statement.find(")") - statement.find(";")) - 1);
-    //condition_to_work = define_accurate_name_of_variable(condition_to_work);
-    //cout << condition_to_work << endl;
-    first_variable_name = define_accurate_name_of_variable(first_variable_name);
-    second_variable_name = define_accurate_name_of_variable(second_variable_name);
-    first_variable_value = return_value_of_variable_simple(first_variable_name);
-    second_variable_value = return_value_of_variable_simple(second_variable_name);
-
-    //cout << condition_to_work << endl;
-    if (condition_to_work == "false") {
-        //cout << "false" << endl;
-        condition_to_work_value = 0;
-        result = is_condition_work(first_variable_value, second_variable_value, bool_sign, condition_to_work_value);
-        if (result == condition_to_work_value) {
-            //cout << "WORK" << endl;
-
-            status_of_last_element = get_status_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS - 1);
-
-            if (status_of_last_element == 1 || AMOUNT_OF_STATEMENTS == 0) {
-                PROMOTION_TO_RUN_CODE = true;
-            }
-            Statement OBJECT_IF;
-
-            OBJECT_IF.edit_information_about_current_object(AMOUNT_OF_STATEMENTS++, 0, 1,0 , statement);
-            //add current statement in common vector for statements 
-            STATETMENTS_IF.push_back(OBJECT_IF);
-
-
-        }
-        else {
-            PROMOTION_TO_RUN_CODE = false;
-            Statement OBJECT_IF;
-
-            OBJECT_IF.edit_information_about_current_object(AMOUNT_OF_STATEMENTS++, 0, 0,0 , statement);
-            //add current statement in common vector for statements 
-            STATETMENTS_IF.push_back(OBJECT_IF);
-        }
-
-    }
-    if (condition_to_work == "true") {
-        //cout << "true value" << endl;
-        condition_to_work_value = 1;
-        result = is_condition_work(first_variable_value, second_variable_value, bool_sign, condition_to_work_value);
-        if (result == condition_to_work_value) {
-            //cout << "WORK" << endl;
-            status_of_last_element = get_status_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS - 1);
-
-            if (status_of_last_element == 1 || AMOUNT_OF_STATEMENTS == 0) {
-                PROMOTION_TO_RUN_CODE = true;
-            }
-            Statement OBJECT_IF;
-
-            OBJECT_IF.edit_information_about_current_object(AMOUNT_OF_STATEMENTS++, 0, 1 , 0 , statement);
-            //add current statement in common vector for statements 
-            STATETMENTS_IF.push_back(OBJECT_IF);
-        }
-        else {
-            PROMOTION_TO_RUN_CODE = false;
-            Statement OBJECT_IF;
-
-            OBJECT_IF.edit_information_about_current_object(AMOUNT_OF_STATEMENTS++, 0, 0 , 0 , statement);
-            //add current statement in common vector for statements 
-            STATETMENTS_IF.push_back(OBJECT_IF);
-        }
-    }
     //cout << result << endl;
 
 
@@ -652,7 +596,7 @@ void get_data_from_statement(string line ) {
 void get_data_from_statement_while(string line, int number_line) {
     start_line_loop = number_line + 2;
     bool bool_sign_check = false;
-    string statement, arguments, variables, first_variable_name, second_variable_name, bool_sign, condition_to_work , statement_l;
+    string statement, arguments, variables, first_variable_name, second_variable_name, bool_sign, condition_to_work, statement_l;
     int bool_sign_position, first_variable_value, second_variable_value, result, condition_to_work_value;
     int status_of_last_element;
     result = 1;
@@ -713,7 +657,7 @@ void get_data_from_statement_while(string line, int number_line) {
             OBJECT_IF.type_of_statement = 1;
             OBJECT_IF.status = 1;
             OBJECT_IF.start_line = number_line;
-            OBJECT_IF.statement = line;
+            //OBJECT_IF.statement = line;
             //cout << "OBJECT IF " << OBJECT_IF.statement << endl;
             //OBJECT_IF.edit_information_about_current_object(AMOUNT_OF_STATEMENTS++, 1, 1, number_line, line);
             //add current statement in common vector for statements 
@@ -728,7 +672,7 @@ void get_data_from_statement_while(string line, int number_line) {
             OBJECT_IF.type_of_statement = 1;
             OBJECT_IF.status = 0;
             OBJECT_IF.start_line = number_line;
-            OBJECT_IF.statement = line;
+            //OBJECT_IF.statement = line;
             //cout << "OBJECT IF " << OBJECT_IF.statement << endl;
             //OBJECT_IF.edit_information_about_current_object(AMOUNT_OF_STATEMENTS++, 1, 0, number_line , line);
             //add current statement in common vector for statements 
@@ -752,7 +696,7 @@ void get_data_from_statement_while(string line, int number_line) {
             OBJECT_IF.type_of_statement = 1;
             OBJECT_IF.status = 1;
             OBJECT_IF.start_line = number_line;
-            OBJECT_IF.statement = line;
+            //OBJECT_IF.statement = line;
             //cout << "OBJECT IF " << OBJECT_IF.statement << endl;
             //cout << VARIABLES_INTEGER[1].value << endl;
             //OBJECT_IF.edit_information_about_current_object(AMOUNT_OF_STATEMENTS++, 1, 1, number_line, line);
@@ -767,7 +711,7 @@ void get_data_from_statement_while(string line, int number_line) {
             OBJECT_IF.type_of_statement = 1;
             OBJECT_IF.status = 0;
             OBJECT_IF.start_line = number_line;
-            OBJECT_IF.statement = line;
+            //OBJECT_IF.statement = line;
             //cout << "OBJECT IF " << OBJECT_IF.statement << endl;
             //add current statement in common vector for statements 
             STATETMENTS_IF.push_back(OBJECT_IF);
@@ -778,104 +722,22 @@ void get_data_from_statement_while(string line, int number_line) {
 
 }
 
-int get_data_from_statement_while_check(string line) {
-    bool bool_sign_check = false;
-    string statement, arguments, variables, first_variable_name, second_variable_name, bool_sign, condition_to_work;
-    int bool_sign_position, first_variable_value, second_variable_value, result, condition_to_work_value;
-    int status_of_last_element;
-    result = 1;
-    condition_to_work_value = 0;
-    //cout <<"Line:" << line << endl;
-    statement = line.substr(line.find("e") + 1, (line.find(":") - line.find("e")) - 1);
-    //cout << statement << endl;
-    arguments = statement.substr(statement.find("(") + 1, (statement.find(")") - statement.find("(")) - 1);
-    //cout << arguments << endl;
-    variables = arguments.substr(0, arguments.find(";"));
-    //cout << variables << endl;
-    for (int i = 0; i < variables.size(); i++) {
-        if ((variables[i] == '!' || variables[i] == '=') && bool_sign_check == false) {
-            bool_sign = variables[i] + variables[i++];
-            bool_sign_position = i;
-            //cout << bool_sign_position << endl;
-            first_variable_name = variables.substr(0, bool_sign_position - 1);
-            second_variable_name = variables.substr(bool_sign_position + 1, variables.size() - bool_sign_position);
-            //cout << first_variable_name << "||" << second_variable_name << endl;
-            bool_sign_check = true;
-
-        }
-        if ((variables[i] == '>' || variables[i] == '<') && bool_sign_check == false) {
-            bool_sign = variables[i];
-            bool_sign_position = i;
-            //cout << bool_sign_position << endl;
-            first_variable_name = variables.substr(0, bool_sign_position);
-            second_variable_name = variables.substr(bool_sign_position + 1, variables.size() - bool_sign_position);
-            //cout << first_variable_name << "||" << second_variable_name << endl;
-            bool_sign_check = true;
-        }
-
-    }
-    condition_to_work = statement.substr(statement.find(";") + 1, (statement.find(")") - statement.find(";")) - 1);
-    //condition_to_work = define_accurate_name_of_variable(condition_to_work);
-    //cout << condition_to_work << endl;
-    first_variable_name = define_accurate_name_of_variable(first_variable_name);
-    second_variable_name = define_accurate_name_of_variable(second_variable_name);
-    first_variable_value = return_value_of_variable_simple(first_variable_name);
-    second_variable_value = return_value_of_variable_simple(second_variable_name);
-    //cout << 11 <<" "<< condition_to_work << endl;
-    
-    //cout << condition_to_work << endl;
-    if (condition_to_work == "false") {
-        //cout << "false" << endl;
-        condition_to_work_value = 0;
-        result = is_condition_work(first_variable_value, second_variable_value, bool_sign, condition_to_work_value);
-        if (result == condition_to_work_value) {
-            //cout << "WORK" << endl;
-
-            //status_of_last_element = get_status_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS - 1);
-
-       
-                PROMOTION_TO_RUN_CODE = true;
-                //cout << 12 << endl;
-            return 1;
 
 
-        }
-        else {
-            PROMOTION_TO_RUN_CODE = false;
-            return 0;
-        }
-
-    }
-    if (condition_to_work == "true") {
-        //cout << "true value" << endl;
-        condition_to_work_value = 1;
-        result = is_condition_work(first_variable_value, second_variable_value, bool_sign, condition_to_work_value);
-        if (result == condition_to_work_value) {
-            //cout << "WORK" << endl;
-           
-                PROMOTION_TO_RUN_CODE = true;
-            
-            return 1;
-        }
-        else {
-            PROMOTION_TO_RUN_CODE = false;
-            return 0;
-        }
-    }
-    //cout << result << endl;
 
 
-}
+
+
 
 
 // check for command
 void analyse_line(int current_line_number, string current_line) {
 
     string query = current_line;
-    string command_from_line , statement;
+    string command_from_line, statement;
     string spaces;
     bool command_executed = false;
-    int status_of_last_element, type_of_last_elment , result;
+    int status_of_last_element, type_of_last_elment, result;
 
 
     for (int i = 0; i <= query.size(); i++) {
@@ -887,22 +749,22 @@ void analyse_line(int current_line_number, string current_line) {
                 spaces += query[i];
             }
 
-          
+
             command_from_line += query[i];
             //define_accurate_name_of_command(command_from_line);
             //cout << command_from_line << endl;
 
             //cout<<"test2"<<query[i]<<i<<endl;
             if (command_from_line == spaces + "print" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
-                if (OPERATOR_WHILE_IS_WORKING == true ) {
-                  
+                if (OPERATOR_WHILE_IS_WORKING == true) {
+
                     if (current_line_number >= start_line_loop && current_line_number <= final_line_loop) {
                         command_executed = true;
                         spaces.clear();
                         //cout<<"test3"<<endl;
                         println(query);
                     }
-                    
+
 
                 }
                 else {
@@ -911,7 +773,7 @@ void analyse_line(int current_line_number, string current_line) {
                     //cout<<"test3"<<endl;
                     println(query);
                 }
-               
+
 
 
             }
@@ -931,8 +793,8 @@ void analyse_line(int current_line_number, string current_line) {
                     //cout<<"test3"<<endl;
                     input_function(current_line_number, query);
                 }
-               
-               
+
+
 
 
             }
@@ -943,7 +805,7 @@ void analyse_line(int current_line_number, string current_line) {
                         command_executed = true;
                         spaces.clear();
                         //cout<<"test3"<<endl;
-                        
+
                         create_variable_int(query, current_line_number);
                     }
                 }
@@ -954,7 +816,7 @@ void analyse_line(int current_line_number, string current_line) {
 
                     create_variable_int(query, current_line_number);
                 }
-                
+
             }
             if (command_from_line == spaces + "println" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
                 if (OPERATOR_WHILE_IS_WORKING == true) {
@@ -973,7 +835,7 @@ void analyse_line(int current_line_number, string current_line) {
 
                     create_variable_int(query, current_line_number);
                 }
-          
+
             }
             if (command_from_line == spaces + "int" && command_executed != true && PROMOTION_TO_RUN_CODE == true) {
                 if (OPERATOR_WHILE_IS_WORKING == true) {
@@ -1010,13 +872,13 @@ void analyse_line(int current_line_number, string current_line) {
 
                     analyse_content_in_line(current_line_number, current_line, command_from_line);
                 }
-                
+
             }
             if (command_from_line == spaces + "pow" && command_executed != true && PROMOTION_TO_RUN_CODE == true)
             {
                 if (OPERATOR_WHILE_IS_WORKING == true) {
                     if (current_line_number >= start_line_loop && current_line_number <= final_line_loop) {
-                        
+
                         command_executed = true;
                         spaces.clear();
 
@@ -1024,14 +886,14 @@ void analyse_line(int current_line_number, string current_line) {
                     }
                 }
                 else {
-                    
+
                     command_executed = true;
                     spaces.clear();
 
                     pow_for_variable(query, current_line_number);
                 }
-         
-           
+
+
             }
             if (command_from_line == spaces + "sqrt" && command_executed != true && PROMOTION_TO_RUN_CODE == true)
             {
@@ -1076,7 +938,7 @@ void analyse_line(int current_line_number, string current_line) {
                     get_data_from_statement(query);
                     //}
                 }
-                
+
             }
 
             if (command_from_line == spaces + "while" && command_executed != true)
@@ -1093,7 +955,7 @@ void analyse_line(int current_line_number, string current_line) {
                         get_data_from_statement_while(query, current_line_number);
                         //}
                     }
-                    
+
                 }
                 else {
                     status_of_last_element = get_status_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS - 1);
@@ -1106,7 +968,7 @@ void analyse_line(int current_line_number, string current_line) {
                     get_data_from_statement_while(query, current_line_number);
                     //}
                 }
-                
+
             }
 
             if (command_from_line == spaces + ".end" && command_executed != true)
@@ -1118,26 +980,26 @@ void analyse_line(int current_line_number, string current_line) {
                     statement = get_condition_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS - 1);
                     //cout << "statement of last element " << statement<< endl;
                     start_line_loop = get_start_line_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS - 1);
-                    
+
                     if (status_of_last_element == 1 && type_of_last_elment == 1) {
                         PERMISSION_TO_EXECUTE_PROGRAMM = false;
                         final_line_loop = current_line_number + 2;
                         //cout << "final loop " << final_line_loop << endl;
                         //cout << start_line_loop << endl;
                         //cout << final_line_loop << endl;
-                        result = get_data_from_statement_while_check(statement);
+                        result = get_data_from_statement_check(statement);
                         //cout << "Get data :" << result << endl;
-                        if (get_data_from_statement_while_check(statement) == 1) {
+                        if (get_data_from_statement_check(statement) == 1) {
                             //cout <<"Get data :" << get_data_from_statement_while_check(statement) << endl;
                             OPERATOR_WHILE_IS_WORKING = true; // mode loop on
                             int counter_line = 0;
                             ifstream input("Program.txt");
                             string line;
-                            int number_line = start_line_loop+1;
+                            int number_line = start_line_loop + 1;
                             //cout << PERMISSION_TO_EXECUTE_PROGRAMM << endl;
                             while (getline(input, line)) {
 
-                                
+
                                 if (line != " " && line != "#END" && line != "#BEGIN") {
                                     if (number_line == counter_line) {
                                         PERMISSION_TO_EXECUTE_PROGRAMM = true;
@@ -1175,7 +1037,7 @@ void analyse_line(int current_line_number, string current_line) {
                         STATETMENTS_IF.pop_back();
                         PROMOTION_TO_RUN_CODE = true;
                     }
-                    if (status_of_last_element == 1 && type_of_last_elment == 0 ) {
+                    if (status_of_last_element == 1 && type_of_last_elment == 0) {
                         AMOUNT_OF_STATEMENTS--;
                         STATETMENTS_IF.pop_back();
                         PROMOTION_TO_RUN_CODE = true;
@@ -1236,15 +1098,26 @@ int get_file(int start_line, bool PERMISSION_TO_EXECUTE_PROGRAMM) {
 
 }
 
+
+
+
+
 int main()
 {
+
+
 
 
     PROMOTION_TO_RUN_CODE = true;
 
     //pass source code to proccessing 
-    get_file(1, false);
+    get_file(0, false);
     //cout << STATETMENTS_IF.size() << endl;
+
+    //for (auto i : VARIABLES_INTEGER)
+    //{
+    //    cout << i.name << endl;
+    //}
 
     return 0;
 }

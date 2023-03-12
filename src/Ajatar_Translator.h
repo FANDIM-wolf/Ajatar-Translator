@@ -19,15 +19,27 @@
 //function for work with Statement
 #include "Statement.cpp";
 
+
 using namespace std;
 
 bool PROMOTION_TO_RUN_CODE; // Sometimes it does not read a code
-
+bool OPERATOR_WHILE_IS_WORKING = false; // Turn flag on when operator while is working .
 //buffer for variables
 vector <Integer> VARIABLES_INTEGER;
 vector <string> vector_of_expressions;
 vector <string> Tokens_from_expression;
-
+vector <Statement> STATETMENTS_IF;
+int AMOUNT_OF_STATEMENTS = 0;
+//int AMOUNT_OF_STATEMENTS_IN_OWW_MODE = 0;
+bool PERMISSION_TO_EXECUTE_PROGRAMM = false;
+int start_line_loop = 0;
+int final_line_loop = 0;
+// to have access to arguments of conditon
+//global var to keep condition in while 
+int GLOBAL_CONDITION;
+int GLOBAL_FIRST_VAR = 0;
+int GLOBAL_SECOND_VAR = 0; 
+string BOOLEAN_SIGN;
 //return value of variable from vector VARIABKES_INTEGER
 
 //types of statements  
@@ -44,6 +56,31 @@ string define_accurate_name_of_variable(string var) {
 	}
 
 	return accurate_name;
+}
+
+
+int return_value_of_variable_simple(string name_of_vairable) {
+	
+
+	for (auto i : VARIABLES_INTEGER) {
+		if (i.name == name_of_vairable) {
+			return i.value;
+		}
+	}
+
+	
+}
+
+string return_value_of_variable_simple_string(string name_of_vairable) {
+
+	name_of_vairable = define_accurate_name_of_variable(name_of_vairable);
+	for (auto i : VARIABLES_INTEGER) {
+		if (i.name == name_of_vairable) {
+			return to_string(i.value);
+		}
+	}
+	return "&32";
+
 }
 
 string return_value_of_variable(string name_of_vairable , int iterator , int size_of_array) {
@@ -125,7 +162,70 @@ void grab_variables(string raw_string) {
 
 }
 
+int get_status_of_last_element_in_vector_of_STATEMENTS_IF(int pk_of_last_element) {
+	int status_of_last_element;
+	if (STATETMENTS_IF.size() == 0) {
+		return 1;
+	}
+	for (auto i : STATETMENTS_IF) {
+		if (i.pk == pk_of_last_element) {
+			if (i.status == 1) {
+				return 1;
+			}
+			if (i.status == 0) {
+				return 0;
+			}
+		}
+	}
+}
 
+
+int get_type_of_last_element_in_vector_of_STATEMENTS_IF(int pk_of_last_element) {
+	int status_of_last_element;
+	if (STATETMENTS_IF.size() == 0) {
+		return 32;
+	}
+	for (auto i : STATETMENTS_IF) {
+		if (i.pk == pk_of_last_element) {
+			if (i.type_of_statement == 1) {
+				return 1;
+			}
+			if (i.type_of_statement == 0) {
+				return 0;
+			}
+		}
+	}
+}
+
+//or get statement of last element
+string get_condition_of_last_element_in_vector_of_STATEMENTS_IF(int pk_of_last_element) {
+	int status_of_last_element;
+	if (STATETMENTS_IF.size() == 0) {
+		return "2323";// it has no any condition
+	}
+	for (auto i : STATETMENTS_IF) {
+		if (i.pk == pk_of_last_element) {
+			return i.statement;
+		}
+	}
+	return "null";
+}
+
+
+int get_start_line_of_last_element_in_vector_of_STATEMENTS_IF(int pk_of_last_element) {
+	int status_of_last_element;
+	if (STATETMENTS_IF.size() == 0) {
+		return 32;
+	}
+	for (auto i : STATETMENTS_IF) {
+		if (i.pk == pk_of_last_element) {
+			if (i.start_line > 0 ) {
+				return i.start_line;
+			}
+			
+		}
+	}
+}
 
 //returns 1 if variable already exists.
 int is_variable_already_exists(string name_of_variable) {
@@ -211,3 +311,191 @@ double execute_command_sqrt(double number) {
 	
 }
 
+
+
+int is_equal(int first_variable, int second_variable, int condition_to_work) {
+
+	if (first_variable == second_variable) {
+		return 1;
+
+	}
+	else {
+		
+		return 32;
+	}
+}
+
+int is_not_equal(int first_variable, int second_variable, int condition_to_work) {
+
+	if (first_variable != second_variable) {
+		return 1;
+		
+	}
+	else {
+		
+		return 32;
+	}
+}
+
+int is_less(int first_variable, int second_variable, int condition_to_work) {
+
+	if (first_variable < second_variable) {
+		return 1;
+
+	}
+	else {
+		return 0;
+	}
+}
+
+int is_more(int first_variable, int second_variable, int condition_to_work) {
+
+	if (first_variable > second_variable) {
+		return 1;
+
+	}
+	else {
+		return 0;
+	}
+}
+
+
+
+int is_condition_work(int first_variable, int second_variable, string bool_sign, int condition_to_work) {
+	int result, result_of_expression;
+	result = 0;
+
+	if (bool_sign == ">") {
+		result = is_more(first_variable, second_variable, condition_to_work);
+		if (result == condition_to_work) {
+		
+			return result;
+		}
+		else {
+			return 32;
+		}
+		//return result;
+	}
+	if (bool_sign == "<") {
+		result = is_less(first_variable, second_variable, condition_to_work);
+		if (result == condition_to_work) {
+			
+			
+			return result;
+		}
+		else {
+			return 32;
+		}
+		//return result;
+	}
+	if (bool_sign == "^") {
+		result = is_not_equal(first_variable, second_variable, condition_to_work);
+		if (result == condition_to_work) {
+			
+			return result;
+		}
+		else {
+			return 32;
+		}
+		//return result;
+	}
+	if (bool_sign == "z") {
+		result = is_equal(first_variable, second_variable, condition_to_work);
+		
+		if (result == condition_to_work) {
+			
+			return result;
+		}
+		else {
+			return 32;
+		}
+		//return result;
+	}
+
+
+
+	return 0;
+
+
+}
+
+
+char find_bool_operator(string s) {
+	int pos1 = s.find('(');  // Find the opening parenthesis
+	int pos2 = s.find_first_of("<>=!");  // Find the first instance of any boolean operator
+	int pos3 = s.find(')');  // Find the closing parenthesis
+
+	// Return the boolean operator character
+	return s.substr(pos2, 1).at(0);
+}
+
+int findSignPosition(std::string str) {
+	for (int i = 0; i < str.length(); i++) {
+		if (str[i] == '<' || str[i] == '>' || str[i] == '=') {
+			if (str[i - 1] == ' ' && str[i + 1] == ' ') { // to check if the symbol is not inside a word
+				return i;
+			}
+		}
+	}
+	return -1; // symbol not found
+}
+
+
+//get result of bool expression
+
+int  get_result_of_bool_expression(int num1 , int num2 , char bool_sign) {
+	if (bool_sign == '!') {
+		return num1 != num2;
+
+	}
+	if (bool_sign == '=') {
+		return num1 == num2;
+
+	}
+	if (bool_sign == '>') {
+		return num1 > num2;
+
+	}
+	if (bool_sign == '<') {
+		return num1 < num2;
+
+	}
+	
+	return 32; // in case of error
+}
+
+//process boolean expression 
+ int return_boolean_expression(string expression) {
+	string s;
+	int sign;
+
+
+	//cout << "sign:"<<sign << endl;
+	int pos1 = expression.find('(');  // Find the opening parenthesis
+	int pos2 = expression.find_first_of("<>!=");  // Find the greater than sign
+	int pos3 = expression.find(')');  // Find the closing parenthesis
+	cout << pos2 << endl;
+	// Extract the variables from the string using substrings
+	string a = expression.substr(pos1 + 1, pos2 - pos1 - 1);
+	string b = expression.substr(pos2 + 1, pos3 - pos2 - 1);
+	cout << a << "|" << b << endl;  // Output: 1  <  2
+	string a_value = return_value_of_variable_simple_string(a);
+	string b_value = return_value_of_variable_simple_string(b);
+	cout << a_value << " " << b_value << endl;  // Output: 1  <  2
+	cout << expression[pos2] << endl;
+	int result = get_result_of_bool_expression(stoi(a_value), stoi(b_value), expression[pos2]);
+
+
+	return result;
+
+}
+
+
+ int get_data_from_statement_check(string line) {
+	 int p_start, p_end, length_of_statement;
+	 p_start = line.find("(");
+	 p_end = line.find(")");
+	 string statement = line.substr(p_start, (p_end - p_start) + 1);
+	 int  rd = return_boolean_expression(statement);
+	 return rd;
+ }
