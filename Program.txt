@@ -1,12 +1,23 @@
 #BEGIN
 
-print(3123*4)
-int b =3232131;
-int height_of_house = 400;
-int test_variable = 300000000; 
-print(25*25+4,b,test_variable,321*23)
-print(500*1000*5/444)
-print("Hello World!")
-print(test_variable)
-print(height_of_house)
+
+
+int b = 2;
+int c = 3;
+c = (c+b);
+if(c<b;true):
+  print("s");
+    if(c<b;true):
+       print("s");
+        if(c>b;true):
+        print(c,c,c);
+        
+.end
+.end
+.end
+if(c>b;true):
+    print(c,c,b);
+.end
+
+
 #END
