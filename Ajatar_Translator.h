@@ -311,7 +311,34 @@ double execute_command_sqrt(double number) {
 	
 }
 
+// functions for trigonometry
 
+double execute_command_sin(double number)
+{
+	double value = sin(number);
+
+	return value;
+}
+
+double execute_command_cos(double number)
+{
+	double value = cos(number);
+
+	return value;
+}
+
+double execute_command_tg(double number)
+{
+	double value = execute_command_sin(number) / execute_command_cos(number);
+
+	return value;
+}
+double execute_command_ctg(double number)
+{
+	double value = execute_command_cos(number) / execute_command_sin(number);
+
+	return value;
+}
 
 int is_equal(int first_variable, int second_variable, int condition_to_work) {
 

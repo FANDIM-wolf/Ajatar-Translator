@@ -7,7 +7,8 @@ Ajatar translator
 #include <string>
 #include <cstdio>
 #include <vector>
-
+#include <conio.h>
+#include <math.h>
 #include "Ajatar_Translator.h";
 #include <regex>
 // boolean parser 
@@ -465,6 +466,127 @@ void sqrt_for_variable(string current_line, int current_line_number) {
 
 }
 
+/*Trigonometry functions are below */
+
+void sin_for_variable(string current_line, int current_line_number) {
+    string data_from_brackets;
+    int first_bracket;
+    int second_bracket;
+    double new_value;
+    first_bracket = current_line.find("(");
+    second_bracket = current_line.find(")");
+    data_from_brackets = current_line.substr(first_bracket + 1, (second_bracket - first_bracket) - 1);
+    //---------------------------------------------------------------------------------------
+
+    data_from_brackets = define_accurate_name_of_variable(data_from_brackets); // get accurate name of variable
+    if (is_variable_already_exists(data_from_brackets) == 1) {
+        for (int v = 0; v < VARIABLES_INTEGER.size(); v++) {
+            if (data_from_brackets == VARIABLES_INTEGER[v].name) {
+
+                new_value = execute_command_sin(VARIABLES_INTEGER[v].value);
+                //cout << VARIABLES_INTEGER[v].name << endl;
+                VARIABLES_INTEGER[v].value = new_value;
+
+                
+            }
+        }
+    }
+    else {
+        cout << "ERROR:" << "Variable is not found:" << data_from_brackets << ", Line:" << current_line_number << endl;
+    }
+
+
+}
+
+void cos_for_variable(string current_line, int current_line_number) {
+    string data_from_brackets;
+    int first_bracket;
+    int second_bracket;
+    double new_value;
+    first_bracket = current_line.find("(");
+    second_bracket = current_line.find(")");
+    data_from_brackets = current_line.substr(first_bracket + 1, (second_bracket - first_bracket) - 1);
+    //---------------------------------------------------------------------------------------
+
+    data_from_brackets = define_accurate_name_of_variable(data_from_brackets); // get accurate name of variable
+    if (is_variable_already_exists(data_from_brackets) == 1) {
+        for (int v = 0; v < VARIABLES_INTEGER.size(); v++) {
+            if (data_from_brackets == VARIABLES_INTEGER[v].name) {
+
+                new_value = execute_command_cos(VARIABLES_INTEGER[v].value);
+                //cout << VARIABLES_INTEGER[v].name << endl;
+                VARIABLES_INTEGER[v].value = new_value;
+
+
+            }
+        }
+    }
+    else {
+        cout << "ERROR:" << "Variable is not found:" << data_from_brackets << ", Line:" << current_line_number << endl;
+    }
+
+
+}
+
+void tg_for_variable(string current_line, int current_line_number) {
+    string data_from_brackets;
+    int first_bracket;
+    int second_bracket;
+    double new_value;
+    first_bracket = current_line.find("(");
+    second_bracket = current_line.find(")");
+    data_from_brackets = current_line.substr(first_bracket + 1, (second_bracket - first_bracket) - 1);
+    //---------------------------------------------------------------------------------------
+
+    data_from_brackets = define_accurate_name_of_variable(data_from_brackets); // get accurate name of variable
+    if (is_variable_already_exists(data_from_brackets) == 1) {
+        for (int v = 0; v < VARIABLES_INTEGER.size(); v++) {
+            if (data_from_brackets == VARIABLES_INTEGER[v].name) {
+
+                new_value = execute_command_tg(VARIABLES_INTEGER[v].value);
+                //cout << VARIABLES_INTEGER[v].name << endl;
+                VARIABLES_INTEGER[v].value = new_value;
+
+
+            }
+        }
+    }
+    else {
+        cout << "ERROR:" << "Variable is not found:" << data_from_brackets << ", Line:" << current_line_number << endl;
+    }
+
+
+}
+
+void ctg_for_variable(string current_line, int current_line_number) {
+    string data_from_brackets;
+    int first_bracket;
+    int second_bracket;
+    double new_value;
+    first_bracket = current_line.find("(");
+    second_bracket = current_line.find(")");
+    data_from_brackets = current_line.substr(first_bracket + 1, (second_bracket - first_bracket) - 1);
+    //---------------------------------------------------------------------------------------
+
+    data_from_brackets = define_accurate_name_of_variable(data_from_brackets); // get accurate name of variable
+    if (is_variable_already_exists(data_from_brackets) == 1) {
+        for (int v = 0; v < VARIABLES_INTEGER.size(); v++) {
+            if (data_from_brackets == VARIABLES_INTEGER[v].name) {
+
+                new_value = execute_command_ctg(VARIABLES_INTEGER[v].value);
+                //cout << VARIABLES_INTEGER[v].name << endl;
+                VARIABLES_INTEGER[v].value = new_value;
+
+
+            }
+        }
+    }
+    else {
+        cout << "ERROR:" << "Variable is not found:" << data_from_brackets << ", Line:" << current_line_number << endl;
+    }
+
+
+}
 
 void pow_for_variable(string current_line, int current_line_number) {
     string data_from_brackets, first_argument_value, second_argument_in_string;
@@ -912,6 +1034,74 @@ void analyse_line(int current_line_number, string current_line) {
                     spaces.clear();
 
                     sqrt_for_variable(query, current_line_number);
+                }
+            }
+            if (command_from_line == spaces + "sin" && command_executed != true && PROMOTION_TO_RUN_CODE == true)
+            {
+                if (OPERATOR_WHILE_IS_WORKING == true) {
+                    if (current_line_number >= start_line_loop && current_line_number <= final_line_loop) {
+                        command_executed = true;
+                        spaces.clear();
+
+                        sqrt_for_variable(query, current_line_number);
+                    }
+                }
+                else {
+                    command_executed = true;
+                    spaces.clear();
+
+                    sqrt_for_variable(query, current_line_number);
+                }
+            }
+            if (command_from_line == spaces + "cos" && command_executed != true && PROMOTION_TO_RUN_CODE == true)
+            {
+                if (OPERATOR_WHILE_IS_WORKING == true) {
+                    if (current_line_number >= start_line_loop && current_line_number <= final_line_loop) {
+                        command_executed = true;
+                        spaces.clear();
+
+                        cos_for_variable(query, current_line_number);
+                    }
+                }
+                else {
+                    command_executed = true;
+                    spaces.clear();
+
+                    cos_for_variable(query, current_line_number);
+                }
+            }
+            if (command_from_line == spaces + "tg" && command_executed != true && PROMOTION_TO_RUN_CODE == true)
+            {
+                if (OPERATOR_WHILE_IS_WORKING == true) {
+                    if (current_line_number >= start_line_loop && current_line_number <= final_line_loop) {
+                        command_executed = true;
+                        spaces.clear();
+
+                        tg_for_variable(query, current_line_number);
+                    }
+                }
+                else {
+                    command_executed = true;
+                    spaces.clear();
+
+                    tg_for_variable(query, current_line_number);
+                }
+            }
+            if (command_from_line == spaces + "ctg" && command_executed != true && PROMOTION_TO_RUN_CODE == true)
+            {
+                if (OPERATOR_WHILE_IS_WORKING == true) {
+                    if (current_line_number >= start_line_loop && current_line_number <= final_line_loop) {
+                        command_executed = true;
+                        spaces.clear();
+
+                        ctg_for_variable(query, current_line_number);
+                    }
+                }
+                else {
+                    command_executed = true;
+                    spaces.clear();
+
+                    ctg_for_variable(query, current_line_number);
                 }
             }
             if (command_from_line == spaces + "if" && command_executed != true)
