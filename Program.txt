@@ -1,23 +1,8 @@
 #BEGIN
 
-
-
-int b = 2;
-int c = 3;
-c = (c+b);
-if(c<b;true):
-  print("s");
-    if(c<b;true):
-       print("s");
-        if(c>b;true):
-        print(c,c,c);
-        
-.end
-.end
-.end
-if(c>b;true):
-    print(c,c,b);
-.end
-
+int ads = 45;
+int a = 43;
+ads = ((((a+2)+(2*2))/4)*22334);
+print(ads);
 
 #END

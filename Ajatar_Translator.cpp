@@ -11,6 +11,8 @@ Ajatar translator
 #include <math.h>
 #include "Ajatar_Translator.h";
 #include <regex>
+#include "arithmetic_module.cpp";
+
 // boolean parser 
 //#include "Boolean_Parser.h";
 using namespace std;
@@ -95,8 +97,8 @@ void print_exrpession(string expression) {
                 {
                     math_expression[k] = j[k];
                 }
-
-                current_value_for_printing_in_console = te_interp(math_expression, 0); /* Returns value. */
+                //result_in_console = evaluateExpression(math_expression);
+                current_value_for_printing_in_console = evaluateExpression(math_expression);  /* Returns value. */
                 //print result of math expression in console 
                 cout << current_value_for_printing_in_console << endl;
                 current_value_for_printing_in_console = 0;
@@ -138,7 +140,10 @@ void print_exrpession(string expression) {
                     math_expression[m] = expression_for_array[m];
 
                 }
-                result_in_console = te_interp(math_expression, 0); /* Returns value. */
+                //result_in_console = te_interp(math_expression, 0); /* Returns value. */
+                
+                result_in_console = evaluateExpression(math_expression);
+
                 //print result of math expression in console 
                 cout << result_in_console << endl;
                 //clear char array
@@ -268,8 +273,10 @@ int change_value_int(string expression, string name_of_var) {
 
                 }
 
-                result_in_console = te_interp(math_expression, 0); /* Returns value. */
+                //result_in_console = te_interp(math_expression, 0); /* Returns value. */
+                
                 //cout <<"Result " << result_in_console << endl;
+                result_in_console = evaluateExpression(math_expression);
 
                 //clear char array
                 for (int k = 0; k <= j.size(); k++)
@@ -1327,7 +1334,7 @@ int main()
     //pass source code to proccessing 
     get_file(0, false);
     //cout << STATETMENTS_IF.size() << endl;
-
+    //test();
     //for (auto i : VARIABLES_INTEGER)
     //{
     //    cout << i.name << endl;
