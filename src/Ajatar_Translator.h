@@ -311,7 +311,34 @@ double execute_command_sqrt(double number) {
 	
 }
 
+// functions for trigonometry
 
+double execute_command_sin(double number)
+{
+	double value = sin(number);
+
+	return value;
+}
+
+double execute_command_cos(double number)
+{
+	double value = cos(number);
+
+	return value;
+}
+
+double execute_command_tg(double number)
+{
+	double value = execute_command_sin(number) / execute_command_cos(number);
+
+	return value;
+}
+double execute_command_ctg(double number)
+{
+	double value = execute_command_cos(number) / execute_command_sin(number);
+
+	return value;
+}
 
 int is_equal(int first_variable, int second_variable, int condition_to_work) {
 
@@ -474,15 +501,15 @@ int  get_result_of_bool_expression(int num1 , int num2 , char bool_sign) {
 	int pos1 = expression.find('(');  // Find the opening parenthesis
 	int pos2 = expression.find_first_of("<>!=");  // Find the greater than sign
 	int pos3 = expression.find(')');  // Find the closing parenthesis
-	cout << pos2 << endl;
+	//cout << pos2 << endl;
 	// Extract the variables from the string using substrings
 	string a = expression.substr(pos1 + 1, pos2 - pos1 - 1);
 	string b = expression.substr(pos2 + 1, pos3 - pos2 - 1);
-	cout << a << "|" << b << endl;  // Output: 1  <  2
+	//cout << a << "|" << b << endl;  // Output: 1  <  2
 	string a_value = return_value_of_variable_simple_string(a);
 	string b_value = return_value_of_variable_simple_string(b);
-	cout << a_value << " " << b_value << endl;  // Output: 1  <  2
-	cout << expression[pos2] << endl;
+	//cout << a_value << " " << b_value << endl;  // Output: 1  <  2
+	//cout << expression[pos2] << endl;
 	int result = get_result_of_bool_expression(stoi(a_value), stoi(b_value), expression[pos2]);
 
 

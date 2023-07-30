@@ -7,9 +7,12 @@ Ajatar translator
 #include <string>
 #include <cstdio>
 #include <vector>
-
+#include <conio.h>
+#include <math.h>
 #include "Ajatar_Translator.h";
 #include <regex>
+#include "arithmetic_module.cpp";
+
 // boolean parser 
 //#include "Boolean_Parser.h";
 using namespace std;
@@ -94,8 +97,8 @@ void print_exrpession(string expression) {
                 {
                     math_expression[k] = j[k];
                 }
-
-                current_value_for_printing_in_console = te_interp(math_expression, 0); /* Returns value. */
+                //result_in_console = evaluateExpression(math_expression);
+                current_value_for_printing_in_console = evaluateExpression(math_expression);  /* Returns value. */
                 //print result of math expression in console 
                 cout << current_value_for_printing_in_console << endl;
                 current_value_for_printing_in_console = 0;
@@ -137,7 +140,10 @@ void print_exrpession(string expression) {
                     math_expression[m] = expression_for_array[m];
 
                 }
-                result_in_console = te_interp(math_expression, 0); /* Returns value. */
+                //result_in_console = te_interp(math_expression, 0); /* Returns value. */
+                
+                result_in_console = evaluateExpression(math_expression);
+
                 //print result of math expression in console 
                 cout << result_in_console << endl;
                 //clear char array
@@ -267,8 +273,10 @@ int change_value_int(string expression, string name_of_var) {
 
                 }
 
-                result_in_console = te_interp(math_expression, 0); /* Returns value. */
+                //result_in_console = te_interp(math_expression, 0); /* Returns value. */
+                
                 //cout <<"Result " << result_in_console << endl;
+                result_in_console = evaluateExpression(math_expression);
 
                 //clear char array
                 for (int k = 0; k <= j.size(); k++)
@@ -465,6 +473,127 @@ void sqrt_for_variable(string current_line, int current_line_number) {
 
 }
 
+/*Trigonometry functions are below */
+
+void sin_for_variable(string current_line, int current_line_number) {
+    string data_from_brackets;
+    int first_bracket;
+    int second_bracket;
+    double new_value;
+    first_bracket = current_line.find("(");
+    second_bracket = current_line.find(")");
+    data_from_brackets = current_line.substr(first_bracket + 1, (second_bracket - first_bracket) - 1);
+    //---------------------------------------------------------------------------------------
+
+    data_from_brackets = define_accurate_name_of_variable(data_from_brackets); // get accurate name of variable
+    if (is_variable_already_exists(data_from_brackets) == 1) {
+        for (int v = 0; v < VARIABLES_INTEGER.size(); v++) {
+            if (data_from_brackets == VARIABLES_INTEGER[v].name) {
+
+                new_value = execute_command_sin(VARIABLES_INTEGER[v].value);
+                //cout << VARIABLES_INTEGER[v].name << endl;
+                VARIABLES_INTEGER[v].value = new_value;
+
+                
+            }
+        }
+    }
+    else {
+        cout << "ERROR:" << "Variable is not found:" << data_from_brackets << ", Line:" << current_line_number << endl;
+    }
+
+
+}
+
+void cos_for_variable(string current_line, int current_line_number) {
+    string data_from_brackets;
+    int first_bracket;
+    int second_bracket;
+    double new_value;
+    first_bracket = current_line.find("(");
+    second_bracket = current_line.find(")");
+    data_from_brackets = current_line.substr(first_bracket + 1, (second_bracket - first_bracket) - 1);
+    //---------------------------------------------------------------------------------------
+
+    data_from_brackets = define_accurate_name_of_variable(data_from_brackets); // get accurate name of variable
+    if (is_variable_already_exists(data_from_brackets) == 1) {
+        for (int v = 0; v < VARIABLES_INTEGER.size(); v++) {
+            if (data_from_brackets == VARIABLES_INTEGER[v].name) {
+
+                new_value = execute_command_cos(VARIABLES_INTEGER[v].value);
+                //cout << VARIABLES_INTEGER[v].name << endl;
+                VARIABLES_INTEGER[v].value = new_value;
+
+
+            }
+        }
+    }
+    else {
+        cout << "ERROR:" << "Variable is not found:" << data_from_brackets << ", Line:" << current_line_number << endl;
+    }
+
+
+}
+
+void tg_for_variable(string current_line, int current_line_number) {
+    string data_from_brackets;
+    int first_bracket;
+    int second_bracket;
+    double new_value;
+    first_bracket = current_line.find("(");
+    second_bracket = current_line.find(")");
+    data_from_brackets = current_line.substr(first_bracket + 1, (second_bracket - first_bracket) - 1);
+    //---------------------------------------------------------------------------------------
+
+    data_from_brackets = define_accurate_name_of_variable(data_from_brackets); // get accurate name of variable
+    if (is_variable_already_exists(data_from_brackets) == 1) {
+        for (int v = 0; v < VARIABLES_INTEGER.size(); v++) {
+            if (data_from_brackets == VARIABLES_INTEGER[v].name) {
+
+                new_value = execute_command_tg(VARIABLES_INTEGER[v].value);
+                //cout << VARIABLES_INTEGER[v].name << endl;
+                VARIABLES_INTEGER[v].value = new_value;
+
+
+            }
+        }
+    }
+    else {
+        cout << "ERROR:" << "Variable is not found:" << data_from_brackets << ", Line:" << current_line_number << endl;
+    }
+
+
+}
+
+void ctg_for_variable(string current_line, int current_line_number) {
+    string data_from_brackets;
+    int first_bracket;
+    int second_bracket;
+    double new_value;
+    first_bracket = current_line.find("(");
+    second_bracket = current_line.find(")");
+    data_from_brackets = current_line.substr(first_bracket + 1, (second_bracket - first_bracket) - 1);
+    //---------------------------------------------------------------------------------------
+
+    data_from_brackets = define_accurate_name_of_variable(data_from_brackets); // get accurate name of variable
+    if (is_variable_already_exists(data_from_brackets) == 1) {
+        for (int v = 0; v < VARIABLES_INTEGER.size(); v++) {
+            if (data_from_brackets == VARIABLES_INTEGER[v].name) {
+
+                new_value = execute_command_ctg(VARIABLES_INTEGER[v].value);
+                //cout << VARIABLES_INTEGER[v].name << endl;
+                VARIABLES_INTEGER[v].value = new_value;
+
+
+            }
+        }
+    }
+    else {
+        cout << "ERROR:" << "Variable is not found:" << data_from_brackets << ", Line:" << current_line_number << endl;
+    }
+
+
+}
 
 void pow_for_variable(string current_line, int current_line_number) {
     string data_from_brackets, first_argument_value, second_argument_in_string;
@@ -542,15 +671,15 @@ void input_function(int current_line_number, string current_line) {
 
 
 //function for work with statement if
-void get_data_from_statement(string line) {
+void get_data_from_statement(string line , int current_line) {
 
     int  result = get_data_from_statement_check(line);
-
+    //cout << result << endl;
     //cout << condition_to_work << endl;
     if (result == 1) {
         
         
-            //cout << "WORK" << endl;
+            //cout << "WORK 1" << endl;
 
             int status_of_last_element = get_status_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS - 1);
 
@@ -558,8 +687,9 @@ void get_data_from_statement(string line) {
                 PROMOTION_TO_RUN_CODE = true;
             }
             Statement OBJECT_IF;
-            AMOUNT_OF_STATEMENTS++;
-            OBJECT_IF.edit_information_about_current_object(AMOUNT_OF_STATEMENTS, 0, 1, 0 , line); // pk , type , status
+       
+
+            OBJECT_IF.edit_information_about_current_object(AMOUNT_OF_STATEMENTS, 1, true, current_line, line); // pk , type , status
             //add current statement in common vector for statements 
             STATETMENTS_IF.push_back(OBJECT_IF);
 
@@ -575,8 +705,9 @@ void get_data_from_statement(string line) {
 
         
         Statement OBJECT_IF;
-        AMOUNT_OF_STATEMENTS++;
-        OBJECT_IF.edit_information_about_current_object(AMOUNT_OF_STATEMENTS, 0, 0, 0 , line); // pk , type , status
+        
+        
+        OBJECT_IF.edit_information_about_current_object(AMOUNT_OF_STATEMENTS, 1, false, current_line, line); // pk , type , status
         //add current statement in common vector for statements 
         STATETMENTS_IF.push_back(OBJECT_IF);
 
@@ -912,6 +1043,74 @@ void analyse_line(int current_line_number, string current_line) {
                     sqrt_for_variable(query, current_line_number);
                 }
             }
+            if (command_from_line == spaces + "sin" && command_executed != true && PROMOTION_TO_RUN_CODE == true)
+            {
+                if (OPERATOR_WHILE_IS_WORKING == true) {
+                    if (current_line_number >= start_line_loop && current_line_number <= final_line_loop) {
+                        command_executed = true;
+                        spaces.clear();
+
+                        sqrt_for_variable(query, current_line_number);
+                    }
+                }
+                else {
+                    command_executed = true;
+                    spaces.clear();
+
+                    sqrt_for_variable(query, current_line_number);
+                }
+            }
+            if (command_from_line == spaces + "cos" && command_executed != true && PROMOTION_TO_RUN_CODE == true)
+            {
+                if (OPERATOR_WHILE_IS_WORKING == true) {
+                    if (current_line_number >= start_line_loop && current_line_number <= final_line_loop) {
+                        command_executed = true;
+                        spaces.clear();
+
+                        cos_for_variable(query, current_line_number);
+                    }
+                }
+                else {
+                    command_executed = true;
+                    spaces.clear();
+
+                    cos_for_variable(query, current_line_number);
+                }
+            }
+            if (command_from_line == spaces + "tg" && command_executed != true && PROMOTION_TO_RUN_CODE == true)
+            {
+                if (OPERATOR_WHILE_IS_WORKING == true) {
+                    if (current_line_number >= start_line_loop && current_line_number <= final_line_loop) {
+                        command_executed = true;
+                        spaces.clear();
+
+                        tg_for_variable(query, current_line_number);
+                    }
+                }
+                else {
+                    command_executed = true;
+                    spaces.clear();
+
+                    tg_for_variable(query, current_line_number);
+                }
+            }
+            if (command_from_line == spaces + "ctg" && command_executed != true && PROMOTION_TO_RUN_CODE == true)
+            {
+                if (OPERATOR_WHILE_IS_WORKING == true) {
+                    if (current_line_number >= start_line_loop && current_line_number <= final_line_loop) {
+                        command_executed = true;
+                        spaces.clear();
+
+                        ctg_for_variable(query, current_line_number);
+                    }
+                }
+                else {
+                    command_executed = true;
+                    spaces.clear();
+
+                    ctg_for_variable(query, current_line_number);
+                }
+            }
             if (command_from_line == spaces + "if" && command_executed != true)
             {
                 if (OPERATOR_WHILE_IS_WORKING == true) {
@@ -923,7 +1122,7 @@ void analyse_line(int current_line_number, string current_line) {
                         command_executed = true;
                         //cout << AMOUNT_OF_STATEMENTS << "SSS" << endl;
                         spaces.clear();
-                        get_data_from_statement(query);
+                        get_data_from_statement(query , current_line_number);
                         //}
                     }
                 }
@@ -935,7 +1134,7 @@ void analyse_line(int current_line_number, string current_line) {
                     command_executed = true;
                     //cout << AMOUNT_OF_STATEMENTS << "SSS" << endl;
                     spaces.clear();
-                    get_data_from_statement(query);
+                    get_data_from_statement(query , current_line_number);
                     //}
                 }
 
@@ -952,7 +1151,12 @@ void analyse_line(int current_line_number, string current_line) {
                         command_executed = true;
                         //cout << AMOUNT_OF_STATEMENTS << "SSS" << endl;
                         spaces.clear();
-                        get_data_from_statement_while(query, current_line_number);
+
+                        //cout << "AMOUNT_OF_STATEMENTS = " << AMOUNT_OF_STATEMENTS << endl;
+                        AMOUNT_OF_STATEMENTS = AMOUNT_OF_STATEMENTS + 1;
+
+                        get_data_from_statement(query,current_line_number);
+                        
                         //}
                     }
 
@@ -965,7 +1169,9 @@ void analyse_line(int current_line_number, string current_line) {
                     command_executed = true;
                     //cout << AMOUNT_OF_STATEMENTS << "SSS" << endl;
                     spaces.clear();
-                    get_data_from_statement_while(query, current_line_number);
+                    //cout << "AMOUNT_OF_STATEMENTS = " << AMOUNT_OF_STATEMENTS << endl;
+                    AMOUNT_OF_STATEMENTS = AMOUNT_OF_STATEMENTS + 1;
+                    get_data_from_statement(query , current_line_number);
                     //}
                 }
 
@@ -973,30 +1179,45 @@ void analyse_line(int current_line_number, string current_line) {
 
             if (command_from_line == spaces + ".end" && command_executed != true)
             {
-                if (AMOUNT_OF_STATEMENTS != 0) {
-                    status_of_last_element = get_status_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS - 1);
-                    type_of_last_elment = get_type_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS - 1);
+                //cout << "AMOUNT_OF_STATEMENTS = " << AMOUNT_OF_STATEMENTS << endl;
+                if (AMOUNT_OF_STATEMENTS != 0 ) {
+                    //status_of_last_element = get_status_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS - 1);
+                    //if (STATETMENTS_IF.size() == 1) {
+                        type_of_last_elment = get_type_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS);
+                        statement = get_condition_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS);
+                        status_of_last_element = get_status_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS);
+                        start_line_loop = get_start_line_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS);
+                    //}
+                    //else {
+                    //    type_of_last_elment = get_type_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS-1);
+                    //    statement = get_condition_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS-1);
+                    //    status_of_last_element = get_status_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS-1);
+                    //    start_line_loop = get_start_line_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS);
+                    //}
+                    
                     //cout <<"Type:"<< type_of_last_elment << endl;
-                    statement = get_condition_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS - 1);
+    
                     //cout << "statement of last element " << statement<< endl;
-                    start_line_loop = get_start_line_of_last_element_in_vector_of_STATEMENTS_IF(AMOUNT_OF_STATEMENTS - 1);
+                    //cout << "OPERATOR WHILE " << OPERATOR_WHILE_IS_WORKING << endl;
 
-                    if (status_of_last_element == 1 && type_of_last_elment == 1) {
+                    if (status_of_last_element == true && type_of_last_elment == 1) {
                         PERMISSION_TO_EXECUTE_PROGRAMM = false;
                         final_line_loop = current_line_number + 2;
-                        //cout << "final loop " << final_line_loop << endl;
-                        //cout << start_line_loop << endl;
+
+                        //cout << "final loop: " << final_line_loop << endl;
+                        //cout <<"start loop: " << start_line_loop << endl;
                         //cout << final_line_loop << endl;
                         result = get_data_from_statement_check(statement);
                         //cout << "Get data :" << result << endl;
                         if (get_data_from_statement_check(statement) == 1) {
-                            //cout <<"Get data :" << get_data_from_statement_while_check(statement) << endl;
+                            //cout <<"Get data :" << get_data_from_statement_check(statement) << endl;
                             OPERATOR_WHILE_IS_WORKING = true; // mode loop on
                             int counter_line = 0;
                             ifstream input("Program.txt");
                             string line;
                             int number_line = start_line_loop + 1;
                             //cout << PERMISSION_TO_EXECUTE_PROGRAMM << endl;
+                            //cout << "Number line :" <<number_line << endl;
                             while (getline(input, line)) {
 
 
@@ -1044,7 +1265,7 @@ void analyse_line(int current_line_number, string current_line) {
                     }
                 }
                 else {
-                    cout << "There is no any if statement , LINE: " << current_line_number << endl;
+                    cout << "There is no any if or while statement , LINE: " << current_line_number << endl;
                 }
             }
 
@@ -1113,7 +1334,7 @@ int main()
     //pass source code to proccessing 
     get_file(0, false);
     //cout << STATETMENTS_IF.size() << endl;
-
+    //test();
     //for (auto i : VARIABLES_INTEGER)
     //{
     //    cout << i.name << endl;

@@ -1,0 +1,34 @@
+#BEGIN
+
+int a = 0 ;
+int b = 0 ;
+int c = 0 ;
+int D = 0 ;
+int x = 0 ;
+int x_first = 0;
+int x_second = 0;
+int zero = 0;
+input(a);
+input(b);
+input(c);
+
+pow(b,2);
+D = (b - (4*a*c));
+sqrt(D);
+if(D==zero;true):
+   x = ((b/(2*a))*(-1));
+.end
+if(D<zero;true):
+  print("no roots");
+.end
+if(D>zero;true):
+   
+   x_first = ( ((-1*b)+D)/(2*a) );
+   x_second = ( ((-1*b)+D)/(2*a));
+   x_first = (1);
+   print("Roots are below");
+   print(x_first,x_second);
+.end
+
+
+#END
