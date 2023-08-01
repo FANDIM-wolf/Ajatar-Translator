@@ -7,7 +7,8 @@ Ajatar translator
 #include <string>
 #include <cstdio>
 #include <vector>
-#include <conio.h>
+//#include <conio.h>
+//#include <curses.h>
 #include <math.h>
 #include "Ajatar_Translator.h";
 #include <regex>
@@ -49,9 +50,9 @@ void create_variable_int(string query, int number_of_line) {
         //cout << number << endl;
         //int number1= stoi(number);
         //cout << number1 << endl;
-        value_for_object = get_int_number_from_string(number);
+        value_for_object = stoi(number);
         //cout << "New value:" << value_for_object << endl;
-
+        
 
         if (is_variable_already_exists(name_of_variable) == 1) {
             cout << "Variable with name " << name_of_variable << " already exist! Line:" << number_of_line << endl;
@@ -227,7 +228,8 @@ int change_value_int(string expression, string name_of_var) {
                     math_expression[k] = j[k];
                 }
 
-                current_value_for_printing_in_console = te_interp(math_expression, 0); /* Returns value. */
+                //current_value_for_printing_in_console = te_interp(math_expression, 0); /* Returns value. */
+                current_value_for_printing_in_console = evaluateExpression(math_expression);
                 //print result of math expression in console 
                 //cout << current_value_for_printing_in_console << endl;
 
@@ -617,7 +619,8 @@ void pow_for_variable(string current_line, int current_line_number) {
     if (is_variable_already_exists(first_argument_value) == 1) {
         for (int v = 0; v < VARIABLES_INTEGER.size(); v++) {
             if (first_argument_value == VARIABLES_INTEGER[v].name) {
-                degree = get_int_number_from_string(second_argument_in_string);
+                degree = stoi(second_argument_in_string);
+                
                 new_value = pow(VARIABLES_INTEGER[v].value, degree);
                 //cout << VARIABLES_INTEGER[v].name << endl;
                 VARIABLES_INTEGER[v].value = new_value;
@@ -1265,7 +1268,8 @@ void analyse_line(int current_line_number, string current_line) {
                     }
                 }
                 else {
-                    cout << "There is no any if or while statement , LINE: " << current_line_number << endl;
+                    //cout << "There is no any if or while statement , LINE: " << current_line_number <<" "<<status_of_last_element<<" "<<type_of_last_elment<< endl;
+                    ok_it_is_error +=1;
                 }
             }
 
