@@ -44,7 +44,7 @@ string BOOLEAN_SIGN;
 
 //types of statements  
 enum STATEMENTS {IF , WHILE};
-int ok_it_is_error = 0 ;
+
 
 string define_accurate_name_of_variable(string var) {
 	string accurate_name;
@@ -195,7 +195,6 @@ int get_type_of_last_element_in_vector_of_STATEMENTS_IF(int pk_of_last_element) 
 			}
 		}
 	}
-	return 0;
 }
 
 //or get statement of last element

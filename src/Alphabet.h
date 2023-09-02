@@ -57,6 +57,7 @@ int is_number(char input) {
     case '7':
     case '8':
     case '9':
+    case '.':
         return 1;
 
 
@@ -81,6 +82,7 @@ int is_number_for_string(string input) {
         case '7':
         case '8':
         case '9':
+        case '.':
             size++;
 
 
@@ -121,4 +123,16 @@ int return_1_if_it_consists_number_or_letter_or_math_symbol(char x) {
 
     return 0;
 
+}
+
+
+bool hasDot(char arr[]) {
+    bool dot = false;
+    for (int i = 0; i < strlen(arr); i++) {
+        if (arr[i] == '.') {
+            dot = true;
+            break;
+        }
+    }
+    return dot;
 }

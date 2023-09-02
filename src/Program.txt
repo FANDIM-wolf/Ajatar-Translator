@@ -1,18 +1,5 @@
 #BEGIN
 
-println("Ajatar is working on Linux!");
-
-int ad = 1;
-ad = (ad+32);
-int d = 1;
-int c = 200;
-while(ad>d):
-println("more");
-d=(d+10);
-if(c>ad):
-   println("yes");
-   .end
-.end
-print(ad);
+print(23.32+23);
 
 #END
