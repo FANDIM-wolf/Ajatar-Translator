@@ -1,8 +1,5 @@
 #BEGIN
 
-int ads = 45;
-int a = 43;
-ads = ((((a+2)+(2*2))/4)*22334);
-print(ads);
+print(23.32+23);
 
 #END

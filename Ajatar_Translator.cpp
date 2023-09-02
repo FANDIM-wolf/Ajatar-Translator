@@ -78,11 +78,12 @@ void create_variable_int(string query, int number_of_line) {
 void print_exrpession(string expression) {
     grab_variables(expression);
     double current_value_for_printing_in_console;
-    int result_in_console;
+    double result_in_console;
     bool expression_checked = false;
     char math_expression[300] = {};
     char math_expression_without_spaces[300] = {};
     string expression_for_array;
+    bool real_number = false;
     // check for math expression
 
     string final_expression_from_tokens;
@@ -96,7 +97,9 @@ void print_exrpession(string expression) {
                 for (int k = 0; k <= j.size(); k++)
                 {
                     math_expression[k] = j[k];
+                    //cout << "Test ,  math object:  " << math_expression[k] << endl;
                 }
+               
                 //result_in_console = evaluateExpression(math_expression);
                 current_value_for_printing_in_console = evaluateExpression(math_expression);  /* Returns value. */
                 //print result of math expression in console 
@@ -105,7 +108,8 @@ void print_exrpession(string expression) {
                 expression_checked = true;
                 //clear char array
                 for (int k = 0; k <= j.size(); k++)
-                {
+                {   
+                    
                     math_expression[k] = NULL;
                 }
 
@@ -116,6 +120,7 @@ void print_exrpession(string expression) {
                 // work with variables 
                 //cout << "number" << endl;
 
+                //cout << "Test 1:" << j << endl;
                 //cout << "Final string:" << final_expression_from_tokens << endl;
                 Tokens_from_expression = from_string_to_vector(j); // split string to tokens
 
@@ -135,20 +140,35 @@ void print_exrpession(string expression) {
 
                 }
 
+                
                 //cout << "Expression for array" << expression_for_array<<")"<< endl;
                 for (int m = 0; m <= expression_for_array.size(); m++) {
+
+
                     math_expression[m] = expression_for_array[m];
 
+                    //cout << "Test ,  math object:  " << math_expression[m] << endl;
+
+                }
+                if (hasDot(math_expression)) {
+                    //cout << "The char array contains a dot symbol." << endl;
+                    real_number = true;
+                    result_in_console = evaluateExpression_Double(math_expression);
+                }
+                else {
+                    //cout << "The char array does not contain a dot symbol." << endl;
+                    result_in_console = evaluateExpression(math_expression);
                 }
                 //result_in_console = te_interp(math_expression, 0); /* Returns value. */
                 
-                result_in_console = evaluateExpression(math_expression);
+                
 
                 //print result of math expression in console 
                 cout << result_in_console << endl;
                 //clear char array
                 for (int k = 0; k <= j.size(); k++)
-                {
+                {   
+                    
                     math_expression[k] = NULL;
                 }
                 final_expression_from_tokens.erase();
